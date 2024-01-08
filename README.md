@@ -153,38 +153,37 @@ randomAvatar Method
 randomTopic Method
 ------------------
 
-**Method Signature:** `randomTopic(topics)`
-**Description:** This method selects random topics from the provided array and populates elements with the `[data-random="topic"]` attribute.
-**Usage:** `randomUtil.randomTopic(randomData.randomTopics);`
-**Parameters:** `topics`: *Array&lt;String&gt;* - An array of string topics from which a random topic will be chosen.
-**Target HTML Attribute:** This method targets elements with the `[data-random="topic"]` attribute and updates their content.
+- **Method Signature:** `randomTopic(topics)`
+- **Description:** This method selects random topics from the provided array and populates elements with the `[data-random="topic"]` attribute.
+- **Usage:** `randomUtil.randomTopic(randomData.randomTopics);`
+- **Parameters:** `topics`: *Array&lt;String&gt;* - An array of string topics from which a random topic will be chosen.
+- **Target HTML Attribute:** This method targets elements with the `[data-random="topic"]` attribute and updates their content.
 
 randomTitle Method
 ------------------
 
-**Method Signature:** `randomTitle(titles)`
-**Description:** This method selects a random title from the provided array and populates elements with the `[data-random="title"]` attribute.
-**Usage:** `randomUtil.randomTitle(randomData.randomTitles);`
-**Parameters:** `titles`: *Array&lt;String&gt;* - An array of string titles from which a random title will be chosen.
-**Target HTML Attribute:** This method targets elements with the `[data-random="title"]` attribute and updates their content.
+- **Method Signature:** `randomTitle(titles)`
+- **Description:** This method selects a random title from the provided array and populates elements with the `[data-random="title"]` attribute.
+- **Usage:** `randomUtil.randomTitle(randomData.randomTitles);`
+- **Parameters:** `titles`: *Array&lt;String&gt;* - An array of string titles from which a random title will be chosen.
+- **Target HTML Attribute:** This method targets elements with the `[data-random="title"]` attribute and updates their content.
 
 randomReadTime Method
 ---------------------
 
-**Method Signature:** `randomReadTime()`
-**Description:** This method generates a random read time between 2 and 12 minutes and populates elements with the `[data-random="time"]` attribute.
-**Usage:** `randomUtil.randomReadTime();`
-**Target HTML Attribute:** This method targets elements with the `[data-random="time"]` attribute and updates their content.
+- **Method Signature:** `randomReadTime()`
+- **Description:** This method generates a random read time between 2 and 12 minutes and populates elements with the `[data-random="time"]` attribute.
+- **Usage:** `randomUtil.randomReadTime();`
+- **Target HTML Attribute:** This method targets elements with the `[data-random="time"]` attribute and updates their content.
 
 randomExcerpt Method
 --------------------
 
-**Method Signature:** `randomExcerpt(excerpts)`
-**Description:** This method selects a random excerpt from the provided array and populates elements with the `[data-random="excerpt"]` attribute.
-**Usage:** `randomUtil.randomExcerpt(randomData.randomExcerpts);`
-**Parameters:** `excerpts`: *Array&lt;String&gt;* - An array of string excerpts from which a random excerpt will be chosen.
-**Target HTML Attribute:** This method targets elements with the `[data-random="excerpt"]` attribute and updates their content.
-
+- **Method Signature:** `randomExcerpt(excerpts)`
+- **Description:** This method selects a random excerpt from the provided array and populates elements with the `[data-random="excerpt"]` attribute.
+- **Usage:** `randomUtil.randomExcerpt(randomData.randomExcerpts);`
+- **Parameters:** `excerpts`: *Array&lt;String&gt;* - An array of string excerpts from which a random excerpt will be chosen.
+- **Target HTML Attribute:** This method targets elements with the `[data-random="excerpt"]` attribute and updates their content.
 
 ## Folder Structure
 ```
