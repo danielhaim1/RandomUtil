@@ -14,7 +14,7 @@ Overview
 - **Random Title:** `span[data-random="title"]`
 - **Random Excerpt:** `span[data-random="excerpt"]`
 - **Random Image:**  `span[data-random="img"]`
-  **Random Avatar:**  `span[data-random="avatar"]`
+- **Random Avatar:**  `span[data-random="avatar"]`
  
  ---
 
