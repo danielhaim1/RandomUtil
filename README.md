@@ -167,6 +167,7 @@ randomTitle Method
 **Usage:** `randomUtil.randomTitle(randomData.randomTitles);`
 **Parameters:** `titles`: *Array&lt;String&gt;* - An array of string titles from which a random title will be chosen.
 **Target HTML Attribute:** This method targets elements with the `[data-random="title"]` attribute and updates their content.
+
 randomReadTime Method
 ---------------------
 
