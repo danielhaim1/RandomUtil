@@ -1,10 +1,10 @@
-# ContentGenerator API
+# RandomUtil API
 =======================
 
 Overview
 --------
 
-`ContentGenerator` is an NPM package for easily populating DOM elements with random data, perfect for testing and prototyping web interfaces. Supports various data types including text, images, and dates.
+`RandomUtil` is an NPM package for easily populating DOM elements with random data, perfect for testing and prototyping web interfaces. Supports various data types including text, images, and dates.
 
 -----
 
@@ -14,6 +14,7 @@ Overview
 - **Random Title:** `span[data-random="title"]`
 - **Random Excerpt:** `span[data-random="excerpt"]`
 - **Random Image:**  `span[data-random="img"]`
+  **Random Avatar:**  `span[data-random="avatar"]`
  
  ---
 
@@ -21,14 +22,25 @@ Initialization
 --------------
 
 ```js
-const randomData = new RandomDataArrays(1);
-const randomDataGenerator = new RandomDataGenerator();
-randomDataGenerator.randomTopic(randomData.randomTopics);
-randomDataGenerator.randomTitle(randomData.randomTitles);
-randomDataGenerator.randomExcerpt(randomData.randomExcerpts);
-randomDataGenerator.randomReadTime();
-randomDataGenerator.randomDate("g:i:s a");
-randomDataGenerator.randomImages(10, "nature", "landscape");
+const randomContent = new RandomContent(1);
+const randomUtil = new RandomUtil({
+    topics: "[data-random='topic']",
+    titles: "[data-random='title']",
+    time: "[data-random='time']",
+    excerpts: "[data-random='excerpt']",
+    date: "[data-random='date']",
+    imageSelector: "[data-random='img']"
+    avatarSelector: "[data-random='avatar']"
+});
+
+randomUtil.randomTopic(randomContent.randomTopics);
+randomUtil.randomTitle(randomContent.randomTitles);
+randomUtil.randomExcerpt(randomContent.randomExcerpts);
+randomUtil.randomReadTime();
+randomUtil.randomDate("g:i:s a");
+randomUtil.randomAvatars();
+randomUtil.randomImages(1, "nature", "landscape");
+randomUtil.randomImages({ count: 10, query: "cityscape", orientation: "portrait" });
 ```
 
 Classes &amp; Properties
@@ -38,45 +50,46 @@ Classes &amp; Properties
 - `titleElements`: NodeList of elements to be updated with random titles.
 - `readTimeEls`: NodeList of elements to be updated with random read times.
 - `excerptElements`: NodeList of elements to be updated with random excerpts.
-- `dateManager`: Instance of `RandomDateManager` for managing random date generation.
+- `dateManager`: Instance of `RandomDates` for managing random date generation.
+- `imageManager`: Instance of `RandomImages` for managing random image generation.
+- `avatarManager`: Instance of `RandomAvatars` for managing random avatars generation.
  
-### RandomDataArrays
+### RandomContent
 
 **Description:** This class stores and manages arrays of data categorized by topics, titles, excerpts, and authors.
-**Constructor Signature:** `new RandomDataArrays(category)`
-**Usage:** `const randomData = new RandomDataArrays(1);`
+**Constructor Signature:** `new RandomContent(category)`
+**Usage:** `const randomContent = new RandomContent(1);`
 **Parameters:**
 - `category`: The category ID to select the corresponding data arrays.
  
-### RandomDataGenerator
+### RandomUtil
 
 **Description:** This class is responsible for selecting random data from the provided arrays and updating the respective DOM elements.
-**Constructor Signature:** `new RandomDataGenerator()`
-**Usage:** `const randomDataGenerator = new RandomDataGenerator();`
-**Properties:** Inherits properties like `topicElements`, `titleElements`, etc., from `RandomDataArrays`.
+**Constructor Signature:** `new RandomUtil()`
+**Usage:** `const randomUtil = new RandomUtil();`
+**Properties:** Inherits properties like `topicElements`, `titleElements`, etc.
 
 randomDate Method
 -----------------
 
 **Method Signature:** `randomDate()`
 **Description:** This method triggers the `dateManager` to generate and update elements with a random date.
-**Usage:** `randomDataGenerator.randomDate();`
+**Usage:** `randomUtil.randomDate();`
 **Target HTML Attribute:** This method targets elements with the `[data-random="date"]` attribute managed by the `dateManager` and updates their content with a formatted date.
-
  
 ```js
-randomDataGenerator.randomDate("F j, Y g:i a"); // November 6, 2010 12:50 am
-randomDataGenerator.randomDate("F j, Y"); // November 6, 2010
-randomDataGenerator.randomDate("F j, Y"); // November, 2010
-randomDataGenerator.randomDate("F, Y"); // November 6, 2010
-randomDataGenerator.randomDate("g:i a"); // 12:50 am
-randomDataGenerator.randomDate("g:i:s a"); // 12:50:48 am
-randomDataGenerator.randomDate("l, F jS, Y"); // Saturday, November 6th, 2010
-randomDataGenerator.randomDate("M j, Y @ G:i"); // Nov 6, 2010 @ 0:50
-randomDataGenerator.randomDate("Y/m/d \a\t g:i A"); // 2010/11/06 at 12:50 AM
-randomDataGenerator.randomDate("Y/m/d \a\t g:ia"); // 2010/11/06 at 12:50am
-randomDataGenerator.randomDate("Y/m/d g:i:s A"); // 2010/11/06 12:50:48 AM
-randomDataGenerator.randomDate("Y/m/d"); // 2010/11/06
+randomUtil.randomDate("F j, Y g:i a"); // November 6, 2010 12:50 am
+randomUtil.randomDate("F j, Y"); // November 6, 2010
+randomUtil.randomDate("F j, Y"); // November, 2010
+randomUtil.randomDate("F, Y"); // November 6, 2010
+randomUtil.randomDate("g:i a"); // 12:50 am
+randomUtil.randomDate("g:i:s a"); // 12:50:48 am
+randomUtil.randomDate("l, F jS, Y"); // Saturday, November 6th, 2010
+randomUtil.randomDate("M j, Y @ G:i"); // Nov 6, 2010 @ 0:50
+randomUtil.randomDate("Y/m/d \a\t g:i A"); // 2010/11/06 at 12:50 AM
+randomUtil.randomDate("Y/m/d \a\t g:ia"); // 2010/11/06 at 12:50am
+randomUtil.randomDate("Y/m/d g:i:s A"); // 2010/11/06 12:50:48 AM
+randomUtil.randomDate("Y/m/d"); // 2010/11/06
 ```
 
  **Day of Month**   
@@ -110,33 +123,16 @@ randomDataGenerator.randomDate("Y/m/d"); // 2010/11/06
  **r**              | RFC 2822                                    | Thu, 21 Dec 2000 16:01:07 \+0200       
  **U**              | Unix timestamp \(seconds since Unix Epoch\) | 1455880176                             
 
-randomTopic Method
-------------------
-
-**Method Signature:** `randomTopic(topics)`
-
-**Description:** This method selects random topics from the provided array and populates elements with the `[data-random="topic"]` attribute.
-
-**Usage:** `randomDataGenerator.randomTopic(randomData.randomTopics);`
-
-**Parameters:** `topics`: *Array&lt;String&gt;* - An array of string topics from which a random topic will be chosen.
-
-**Target HTML Attribute:** This method targets elements with the `[data-random="topic"]` attribute and updates their content.
-
 randomImage Method
 ------------------
 
- ```
+```
 const randomImage = new RandomImage(10, "landscape", "nature");
-```
-```
-randomDataGenerator.randomImages(10, "nature", "landscape");
+randomUtil.randomImages(10, "nature", "landscape");
 ```
 
 **Method Signature:** `new randomImages(count, orientation, query)`
-
 **Description:** The RandomImage class fetches a specified number of images based on the given query and orientation from the Unsplash API. It then populates elements with the `[data-random='img']` attribute with these images.
-
 **Usage:** Create an instance of RandomImage with the desired parameters. Call the `init()` method to start fetching and displaying images.
 
 **Parameters:**
@@ -151,48 +147,46 @@ randomDataGenerator.randomImages(10, "nature", "landscape");
 
 The class includes robust error handling to manage potential issues such as missing access keys, network errors, or unsuccessful API calls. Errors are logged to the console for debugging purposes. It's recommended to extend this for user-friendly error messages or alternative content display in a production environment.
 
+randomAvatar Method
+------------------
+
+randomTopic Method
+------------------
+
+**Method Signature:** `randomTopic(topics)`
+**Description:** This method selects random topics from the provided array and populates elements with the `[data-random="topic"]` attribute.
+**Usage:** `randomUtil.randomTopic(randomData.randomTopics);`
+**Parameters:** `topics`: *Array&lt;String&gt;* - An array of string topics from which a random topic will be chosen.
+**Target HTML Attribute:** This method targets elements with the `[data-random="topic"]` attribute and updates their content.
+
 randomTitle Method
 ------------------
 
 **Method Signature:** `randomTitle(titles)`
-
 **Description:** This method selects a random title from the provided array and populates elements with the `[data-random="title"]` attribute.
-
-**Usage:** `randomDataGenerator.randomTitle(randomData.randomTitles);`
-
+**Usage:** `randomUtil.randomTitle(randomData.randomTitles);`
 **Parameters:** `titles`: *Array&lt;String&gt;* - An array of string titles from which a random title will be chosen.
-
 **Target HTML Attribute:** This method targets elements with the `[data-random="title"]` attribute and updates their content.
-
 randomReadTime Method
 ---------------------
 
 **Method Signature:** `randomReadTime()`
-
 **Description:** This method generates a random read time between 2 and 12 minutes and populates elements with the `[data-random="time"]` attribute.
-
-**Usage:** `randomDataGenerator.randomReadTime();`
-
+**Usage:** `randomUtil.randomReadTime();`
 **Target HTML Attribute:** This method targets elements with the `[data-random="time"]` attribute and updates their content.
 
 randomExcerpt Method
 --------------------
 
 **Method Signature:** `randomExcerpt(excerpts)`
-
 **Description:** This method selects a random excerpt from the provided array and populates elements with the `[data-random="excerpt"]` attribute.
-
-**Usage:** `randomDataGenerator.randomExcerpt(randomData.randomExcerpts);`
-
+**Usage:** `randomUtil.randomExcerpt(randomData.randomExcerpts);`
 **Parameters:** `excerpts`: *Array&lt;String&gt;* - An array of string excerpts from which a random excerpt will be chosen.
-
 **Target HTML Attribute:** This method targets elements with the `[data-random="excerpt"]` attribute and updates their content.
-
 
 
 ## Folder Structure
 ```
-.
 ├── .env
 ├── .gitattributes
 ├── .gitignore
@@ -200,48 +194,29 @@ randomExcerpt Method
 ├── LICENSE
 ├── README.md
 ├── __test__
-│   └── ContentGenerator.amd.test.js
+│   └── RandomUtil.amd.test.js
 ├── babel.config.js
 ├── demo
 │   └── index.html
 ├── dist
-│   ├── ContentGenerator.amd.js
-│   ├── ContentGenerator.amd.js.map
-│   ├── ContentGenerator.js
-│   └── ContentGenerator.js.map
+│   ├── RandomUtil.amd.js
+│   ├── RandomUtil.js
+│   └── RandomUtil.js.map
 ├── index.js
 ├── jest.config.js
 ├── package-lock.json
 ├── package.json
+├── sets
+│   ├── palette.1.json
+│   ├── palette.2.json
+│   ├── palette.3.json
+│   └── palette.4.json
 ├── src
 │   ├── index.js
-│   ├── util.random.content.js
-│   ├── util.random.date.js
-│   └── util.random.image.js
+│   ├── util.avatar.js
+│   ├── util.avatar.v2.js
+│   ├── util.content.js
+│   ├── util.date.js
+│   └── util.image.js
 └── webpack.config.js
 ```
-
-
-
-<!-- 
-RandomDateUtil
-Constructor Dependency:
-
-The constructor of RandomDateUtil expects a parent object from which it gets dateElements. This design requires that parent always have a dateElements property. Ensure that the ContentGenerator always provides this.
-Method randomDate:
-
-It correctly checks if dateElements exists and has a length before proceeding, which is good. If dateElements is not defined or empty, it won't throw an error.
-RandomContent
-Constructor and Initialization:
-This class initializes data based on a category. Ensure that the category passed is valid and that this.dataByCategory[this.category] exists and is structured correctly.
-RandomImageUtil
-API Key Usage:
-
-The class uses process.env.RANDOM_IMAGE_API_KEY for the Unsplash API key. Verify that the key is correctly being injected during the build process for your AMD module.
-DOM Interaction:
-
-The method init looks for elements with data-random='img'. Ensure these elements exist in the DOM when init is called.
-Asynchronous Operations:
-
-The methods init and fetchAndCacheImages involve asynchronous operations (fetching data from an API). Make sure that these operations are handled properly where init is called.
- -->

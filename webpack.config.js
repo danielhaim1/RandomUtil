@@ -4,7 +4,7 @@ const nodeExternals = require("webpack-node-externals");
 const TerserPlugin = require("terser-webpack-plugin");
 
 require('dotenv').config();
-console.log('API Key:', process.env.RANDOM_IMAGE_API_KEY);  // For testing purposes
+console.log('API Key:', process.env.RANDOM_IMAGE_API_KEY); // For testing purposes
 
 
 module.exports = [{
@@ -12,7 +12,7 @@ module.exports = [{
     target: "web",
     entry: "./index.js",
     output: {
-        filename: "ContentGenerator.amd.js",
+        filename: "RandomUtil.amd.js",
         path: path.resolve(__dirname, "dist")
     },
     optimization: {
@@ -28,26 +28,32 @@ module.exports = [{
             use: {
                 loader: "babel-loader",
                 options: {
-                    presets: [["@babel/preset-env", {
-                        targets: {
-                            browsers: ["last 5 versions", "safari >= 7"]
-                        },
-                        modules: "amd"
-                    },],]
+                    presets: [
+                        ["@babel/preset-env", {
+                            targets: {
+                                browsers: ["last 5 versions", "safari >= 7"]
+                            },
+                            modules: "amd"
+                        }, ],
+                    ]
                 }
             }
-        },]
+        }, ]
     },
     plugins: [
-        new webpack.DefinePlugin({'process.env.RANDOM_IMAGE_API_KEY': JSON.stringify(process.env.RANDOM_IMAGE_API_KEY)}),
-        new webpack.ProvidePlugin({process: 'process/browser'})
+        new webpack.DefinePlugin({
+            'process.env.RANDOM_IMAGE_API_KEY': JSON.stringify(process.env.RANDOM_IMAGE_API_KEY)
+        }),
+        new webpack.ProvidePlugin({
+            process: 'process/browser'
+        })
     ],
 }, {
     mode: "production",
     target: "node",
     entry: "./index.js",
     output: {
-        filename: "ContentGenerator.js",
+        filename: "RandomUtil.js",
         path: path.resolve(__dirname, "dist"),
         libraryTarget: "commonjs2"
     },
@@ -63,15 +69,17 @@ module.exports = [{
             use: {
                 loader: "babel-loader",
                 options: {
-                    presets: [["@babel/preset-env", {
-                        targets: {
-                            node: "current"
-                        },
-                        modules: "commonjs"
-                    },],]
+                    presets: [
+                        ["@babel/preset-env", {
+                            targets: {
+                                node: "current"
+                            },
+                            modules: "commonjs"
+                        }, ],
+                    ]
                 }
             }
-        },]
+        }, ]
     },
     externals: [nodeExternals()]
 }];

@@ -70,5 +70,21 @@ export class RandomUtil {
         const imageManager = new RandomImageUtil(count, query, orientation);
         imageManager.init();
     }
+
+    // !TODO
+    randomAvatars({ containerSelector, count = 10, avatarOptions = {} }) {
+        const container = document.querySelector(containerSelector);
+        if (!container) {
+            console.warn("Avatar container not found.");
+            return;
+        }
+
+        container.innerHTML = '';
+        for (let i = 0; i < count; i++) {
+            const avatar = this.avatarManager.generateAvatar(avatarOptions);
+            container.appendChild(avatar);
+        }
+    }
+
 }
 

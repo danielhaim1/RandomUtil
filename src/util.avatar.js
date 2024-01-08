@@ -1,4 +1,4 @@
-import { palette } from "../sets/palette.1.json";
+import { palette } from "../sets/palette.4.json";
 
 export class RandomAvatarUtil {
   constructor({ variant = "bauhaus", colors, square = true, size = 80 }) {
@@ -43,11 +43,11 @@ export class RandomAvatarUtil {
 
   init() {
     switch (this.variant) {
+      case "bauhaus":
+        return this.variantGenerator.createBauhausVariant();
       case "pixel":
         const pixelColors = RandomAvatarUtils.generatePixelColors(this.colors);
         return this.variantGenerator.createPixelVariant(pixelColors);
-      case "bauhaus":
-        return this.variantGenerator.createBauhausVariant();
       case "smile":
         return this.variantGenerator.createSmileVariant(this.smileProperties);
       default:
@@ -56,7 +56,7 @@ export class RandomAvatarUtil {
   }
 }
 
-class RandomAvatarUtils {
+export class RandomAvatarUtils {
   static hashCode(name) {
     let hash = 0;
     for (let i = 0; i < name.length; i++) {
