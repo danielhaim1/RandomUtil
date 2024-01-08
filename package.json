@@ -1,15 +1,15 @@
 {
-  "name": "@danielhaim/content-generator",
+  "name": "@danielhaim/RandomUtil",
   "version": "1.0.0",
   "description": "An NPM package for easily populating DOM elements with random data, perfect for testing and prototyping web interfaces. Supports various data types including text, images, and dates.",
   "keywords": [],
-  "homepage": "https://github.com/danielhaim1/content-generator#readme",
+  "homepage": "https://github.com/danielhaim1/RandomUtil#readme",
   "bugs": {
-    "url": "https://github.com/danielhaim1/content-generator/issues"
+    "url": "https://github.com/danielhaim1/RandomUtil/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/danielhaim1/content-generator.git"
+    "url": "git+https://github.com/danielhaim1/RandomUtil.git"
   },
   "license": "MIT",
   "author": {
