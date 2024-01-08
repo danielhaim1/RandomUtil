@@ -56,26 +56,26 @@ Classes &amp; Properties
  
 ### RandomContent
 
-**Description:** This class stores and manages arrays of data categorized by topics, titles, excerpts, and authors.
-**Constructor Signature:** `new RandomContent(category)`
-**Usage:** `const randomContent = new RandomContent(1);`
-**Parameters:**
-- `category`: The category ID to select the corresponding data arrays.
- 
+- **Description:** This class stores and manages arrays of data categorized by topics, titles, excerpts, and authors.
+- **Constructor Signature:** `new RandomContent(category)`
+- **Usage:** `const randomContent = new RandomContent(1);`
+- **Parameters:**
+  - `category`: The category ID to select the corresponding data arrays.
+   
 ### RandomUtil
 
-**Description:** This class is responsible for selecting random data from the provided arrays and updating the respective DOM elements.
-**Constructor Signature:** `new RandomUtil()`
-**Usage:** `const randomUtil = new RandomUtil();`
-**Properties:** Inherits properties like `topicElements`, `titleElements`, etc.
+- **Description:** This class is responsible for selecting random data from the provided arrays and updating the respective DOM elements.
+- **Constructor Signature:** `new RandomUtil()`
+- **Usage:** `const randomUtil = new RandomUtil();`
+- **Properties:** Inherits properties like `topicElements`, `titleElements`, etc.
 
 randomDate Method
 -----------------
 
-**Method Signature:** `randomDate()`
-**Description:** This method triggers the `dateManager` to generate and update elements with a random date.
-**Usage:** `randomUtil.randomDate();`
-**Target HTML Attribute:** This method targets elements with the `[data-random="date"]` attribute managed by the `dateManager` and updates their content with a formatted date.
+- **Method Signature:** `randomDate()`
+- **Description:** This method triggers the `dateManager` to generate and update elements with a random date.
+- **Usage:** `randomUtil.randomDate();`
+- **Target HTML Attribute:** This method targets elements with the `[data-random="date"]` attribute managed by the `dateManager` and updates their content with a formatted date.
  
 ```js
 randomUtil.randomDate("F j, Y g:i a"); // November 6, 2010 12:50 am
@@ -92,36 +92,37 @@ randomUtil.randomDate("Y/m/d g:i:s A"); // 2010/11/06 12:50:48 AM
 randomUtil.randomDate("Y/m/d"); // 2010/11/06
 ```
 
- **Day of Month**   
---------------------
- **d**              | Numeric, with leading zeros                 | 01–31                                  
- **j**              | Numeric, without leading zeros              | 1–31                                   
- **S**              | The English suffix for the day of the month | st, nd or th in the 1st, 2nd or 15th\. 
- **Weekday**        
- **l**              | Full name &nbsp;\(lowercase ‘L’\)           | Sunday – Saturday                      
- **D**              | Three letter name                           | Mon – Sun                              
- **Month**          
- **m**              | Numeric, with leading zeros                 | 01–12                                  
- **n**              | Numeric, without leading zeros              | 1–12                                   
- **F**              | Textual full                                | January – December                     
- **M**              | Textual three letters                       | Jan – Dec                              
- **Year**           
- **Y**              | Numeric, 4 digits                           | Eg\., 1999, 2003                       
- **y**              | Numeric, 2 digits                           | Eg\., 99, 03                           
- **Time**           
- **a**              | Lowercase                                   | am, pm                                 
- **A**              | Uppercase                                   | AM, PM                                 
- **g**              | Hour, 12\-hour, without leading zeros       | 1–12                                   
- **h**              | Hour, 12\-hour, with leading zeros          | 01–12                                  
- **G**              | Hour, 24\-hour, without leading zeros       | 0\-23                                  
- **H**              | Hour, 24\-hour, with leading zeros          | 00\-23                                 
- **i**              | Minutes, with leading zeros                 | 00\-59                                 
- **s**              | Seconds, with leading zeros                 | 00\-59                                 
- **T**              | Timezone abbreviation                       | Eg\., EST, MDT …                       
- **Full Date/Time** 
- **c**              | ISO 8601                                    | 2004\-02\-12T15:19:21\+00:00           
- **r**              | RFC 2822                                    | Thu, 21 Dec 2000 16:01:07 \+0200       
- **U**              | Unix timestamp \(seconds since Unix Epoch\) | 1455880176                             
+| **Category**    | **Format** | **Description**                                      | **Example**                        |
+|-----------------|------------|------------------------------------------------------|------------------------------------|
+| **Day of Month**|            |                                                      |                                    |
+|                 | **d**      | Numeric, with leading zeros                          | 01–31                              |
+|                 | **j**      | Numeric, without leading zeros                       | 1–31                               |
+|                 | **S**      | The English suffix for the day of the month          | st, nd or th in the 1st, 2nd or 15th |
+| **Weekday**     |            |                                                      |                                    |
+|                 | **l**      | Full name (lowercase ‘L’)                            | Sunday – Saturday                  |
+|                 | **D**      | Three letter name                                    | Mon – Sun                          |
+| **Month**       |            |                                                      |                                    |
+|                 | **m**      | Numeric, with leading zeros                          | 01–12                              |
+|                 | **n**      | Numeric, without leading zeros                       | 1–12                               |
+|                 | **F**      | Textual full                                         | January – December                 |
+|                 | **M**      | Textual three letters                                | Jan – Dec                          |
+| **Year**        |            |                                                      |                                    |
+|                 | **Y**      | Numeric, 4 digits                                    | Eg., 1999, 2003                    |
+|                 | **y**      | Numeric, 2 digits                                    | Eg., 99, 03                        |
+| **Time**        |            |                                                      |                                    |
+|                 | **a**      | Lowercase                                            | am, pm                             |
+|                 | **A**      | Uppercase                                            | AM, PM                             |
+|                 | **g**      | Hour, 12-hour, without leading zeros                 | 1–12                               |
+|                 | **h**      | Hour, 12-hour, with leading zeros                    | 01–12                              |
+|                 | **G**      | Hour, 24-hour, without leading zeros                 | 0-23                               |
+|                 | **H**      | Hour, 24-hour, with leading zeros                    | 00-23                              |
+|                 | **i**      | Minutes, with leading zeros                          | 00-59                              |
+|                 | **s**      | Seconds, with leading zeros                          | 00-59                              |
+|                 | **T**      | Timezone abbreviation                                | Eg., EST, MDT …                    |
+| **Full Date/Time** |         |                                                      |                                    |
+|                 | **c**      | ISO 8601                                             | 2004-02-12T15:19:21+00:00          |
+|                 | **r**      | RFC 2822                                             | Thu, 21 Dec
+                         
 
 randomImage Method
 ------------------
