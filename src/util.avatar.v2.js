@@ -1,6 +1,6 @@
 import { palette } from "../sets/palette.4.json";
 
-export class RandomAvatar {
+export class RandomAvatarUtil {
   constructor({ variant = "bauhaus", colors, square = true, size = 80 }) {
     this.variant = variant;
     this.colors = colors || RandomAvatarUtils.loadPalette();

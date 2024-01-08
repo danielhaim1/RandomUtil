@@ -1,13 +1,13 @@
 import { RandomDateUtil } from './util.date.js';
 import { RandomImageUtil } from './util.image.js';
-import { RandomAvatarUtil } from './util.avatar.js';
+// import { RandomAvatarUtil } from './util.avatar.v2.js';
 
 export class RandomUtil {
     constructor(selectors = {}) {
         this.initializeElements(selectors);
         this.dateManager = new RandomDateUtil(this);
         this.imageManager = new RandomImageUtil(this);
-        this.avatarManager = new RandomAvatarUtil(this);
+        // this.avatarManager = new RandomAvatarUtil(this);
     }
 
     initializeElements({ topics, titles, time, excerpts, date }) {
@@ -72,19 +72,19 @@ export class RandomUtil {
     }
 
     // !TODO
-    randomAvatars({ containerSelector, count = 10, avatarOptions = {} }) {
-        const container = document.querySelector(containerSelector);
-        if (!container) {
-            console.warn("Avatar container not found.");
-            return;
-        }
+    // randomAvatars({ containerSelector, count = 10, avatarOptions = {} }) {
+    //     const container = document.querySelector(containerSelector);
+    //     if (!container) {
+    //         console.warn("Avatar container not found.");
+    //         return;
+    //     }
 
-        container.innerHTML = '';
-        for (let i = 0; i < count; i++) {
-            const avatar = this.avatarManager.generateAvatar(avatarOptions);
-            container.appendChild(avatar);
-        }
-    }
+    //     container.innerHTML = '';
+    //     for (let i = 0; i < count; i++) {
+    //         const avatar = this.avatarManager.generateAvatar(avatarOptions);
+    //         container.appendChild(avatar);
+    //     }
+    // }
 
 }
 
