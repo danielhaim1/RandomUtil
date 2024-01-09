@@ -40,7 +40,7 @@ module.exports = [{
     },
     plugins: [
         new webpack.DefinePlugin({
-            'process.env.RANDOM_IMAGE_API_KEY': JSON.stringify(process.env.RANDOM_IMAGE_API_KEY)
+            'process.env.UNSPLASH_API_KEY': JSON.stringify(process.env.UNSPLASH_API_KEY)
         }),
         new webpack.ProvidePlugin({
             process: 'process/browser'

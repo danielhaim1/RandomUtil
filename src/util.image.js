@@ -3,8 +3,8 @@ export class RandomImageUtil {
         this.count = count;
         this.orientation = orientation;
         this.query = query;
-        this.accessKey = process.env.RANDOM_IMAGE_API_KEY;
-        this.cacheTime = 86400; // 1 day in seconds
+        this.accessKey = process.env.UNSPLASH_API_KEY;
+        this.cacheTime = 86400;
         this.cacheControlHeader = `public, max-age=${this.cacheTime}`;
         this.tooltip = true;
     }
