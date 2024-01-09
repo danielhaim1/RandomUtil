@@ -1,26 +1,28 @@
 import { RandomDateUtil } from './util.date.js';
 import { RandomImageUtil } from './util.image.js';
-// import { RandomAvatarUtil } from './util.avatar.v2.js';
+import { RandomAvatar } from './util.avatar.js';
 
 export class RandomUtil {
-    constructor(selectors = {}) {
+    constructor (selectors = {}) {
         this.initializeElements(selectors);
         this.dateManager = new RandomDateUtil(this);
         this.imageManager = new RandomImageUtil(this);
-        // this.avatarManager = new RandomAvatarUtil(this);
+        this.avatarManager = new RandomAvatar(this);
     }
 
-    initializeElements({ topics, titles, time, excerpts, date }) {
+    initializeElements({ topics, titles, time, excerpts, date, avatarSelector }) {
         this.topicElements = this.getElements(topics);
         this.titleElements = this.getElements(titles);
         this.readTimeEls = this.getElements(time);
         this.excerptElements = this.getElements(excerpts);
         this.dateElements = this.getElements(date);
+        this.avatarElements = this.getElements(avatarSelector || '[data-random="avatar"]');
     }
 
     getElements(selector) {
         return selector ? document.querySelectorAll(selector) : [];
     }
+
 
     updateElements(elements, values, formatter = (v) => v) {
         if (!elements) {
@@ -71,19 +73,13 @@ export class RandomUtil {
         imageManager.init();
     }
 
-    // randomAvatars({ containerSelector, count = 10, avatarOptions = {} }) {
-    //     const container = document.querySelector(containerSelector);
-    //     if (!container) {
-    //         console.warn("Avatar container not found.");
-    //         return;
-    //     }
-
-    //     container.innerHTML = '';
-    //     for (let i = 0; i < count; i++) {
-    //         const avatar = this.avatarManager.generateAvatar(avatarOptions);
-    //         container.appendChild(avatar);
-    //     }
-    // }
-
+    randomAvatar({ avatarOptions = {} }) {
+        this.avatarElements.forEach(element => {
+            const avatarManager = new RandomAvatar(avatarOptions);
+            element.innerHTML = '';
+            element.appendChild(avatarManager.generateAvatar());
+        });
+    }
+    
 }
 
