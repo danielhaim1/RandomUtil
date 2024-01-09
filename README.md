@@ -6,6 +6,12 @@ Overview
 
 `RandomUtil` is an NPM package for easily populating DOM elements with random data, perfect for testing and prototyping web interfaces. Supports various data types including text, images, and dates.
 
+
+<a target="_blank" href="https://codepen.io/danielhaim/pen/VwqqoKw">
+    <img src="https://raw.githubusercontent.com/danielhaim1/randomutil/main/examples/demo.png" width="100%" height="auto" alt="RandomUtil">
+</a>
+
+
 -----
 
 - **Random Date:** `span[data-random="date"]`
