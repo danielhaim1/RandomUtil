@@ -1,5 +1,5 @@
 export class RandomDateUtil {
-    constructor(parent) {
+    constructor (parent) {
         this.dateElements = parent.dateElements;
         this.format = "M j, Y";
     }
@@ -10,13 +10,16 @@ export class RandomDateUtil {
 
     getRandomDateInLastSixMonths() {
         const currentDate = new Date();
-        const sixMonthsAgo = new Date(
-            currentDate.setMonth(currentDate.getMonth() - 6)
-        );
-        return new Date(
-            sixMonthsAgo.getTime() +
-                Math.random() * (currentDate.getTime() - sixMonthsAgo.getTime())
-        );
+        const sixMonthsAgo = new Date(currentDate);
+        sixMonthsAgo.setMonth(currentDate.getMonth() - 6);
+
+        const randomMonth = Math.floor(Math.random() * 6); // Random month within the last 6 months
+        const randomDay = Math.floor(Math.random() * 28) + 1; // Random day between 1 and 28
+
+        sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() + randomMonth);
+        sixMonthsAgo.setDate(randomDay);
+
+        return sixMonthsAgo;
     }
 
     formatDate(date, format) {
