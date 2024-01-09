@@ -71,7 +71,6 @@ export class RandomUtil {
         imageManager.init();
     }
 
-    // !TODO
     // randomAvatars({ containerSelector, count = 10, avatarOptions = {} }) {
     //     const container = document.querySelector(containerSelector);
     //     if (!container) {

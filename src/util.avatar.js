@@ -3,21 +3,21 @@ import { palette } from "../sets/palette.4.json";
 export class RandomAvatarUtil {
   constructor({ variant = "bauhaus", colors, square = true, size = 80 }) {
     this.variant = variant;
-    this.colors = colors || RandomAvatarUtils.loadPaletteData();
+    this.colors = colors || RandomAvatarHelper.loadPaletteData();
     this.square = square;
     this.size = size;
     this.elementsCount = 4;
 
-    const RandomHash = RandomAvatarUtils.hashCode(Math.random().toString());
+    const RandomHash = RandomAvatarHelper.hashCode(Math.random().toString());
 
-    this.elementsProperties = RandomAvatarUtils.generateColors(
+    this.elementsProperties = RandomAvatarHelper.generateColors(
       RandomHash,
       this.size,
       this.elementsCount,
       this.colors
     );
 
-    this.smileProperties = RandomAvatarUtils.generateSmileData(
+    this.smileProperties = RandomAvatarHelper.generateSmileData(
       RandomHash,
       this.size,
       this.elementsCount,
@@ -46,7 +46,7 @@ export class RandomAvatarUtil {
       case "bauhaus":
         return this.variantGenerator.createBauhausVariant();
       case "pixel":
-        const pixelColors = RandomAvatarUtils.generatePixelColors(this.colors);
+        const pixelColors = RandomAvatarHelper.generatePixelColors(this.colors);
         return this.variantGenerator.createPixelVariant(pixelColors);
       case "smile":
         return this.variantGenerator.createSmileVariant(this.smileProperties);
@@ -56,7 +56,7 @@ export class RandomAvatarUtil {
   }
 }
 
-export class RandomAvatarUtils {
+export class RandomAvatarHelper {
   static hashCode(name) {
     let hash = 0;
     for (let i = 0; i < name.length; i++) {

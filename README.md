@@ -22,7 +22,7 @@ Initialization
 --------------
 
 ```js
-const randomContent = new RandomContent(1);
+const randomContent = new RandomContentUtil(1);
 const randomUtil = new RandomUtil({
     topics: "[data-random='topic']",
     titles: "[data-random='title']",
@@ -30,7 +30,6 @@ const randomUtil = new RandomUtil({
     excerpts: "[data-random='excerpt']",
     date: "[data-random='date']",
     imageSelector: "[data-random='img']"
-    avatarSelector: "[data-random='avatar']"
 });
 
 randomUtil.randomTopic(randomContent.randomTopics);
@@ -38,7 +37,6 @@ randomUtil.randomTitle(randomContent.randomTitles);
 randomUtil.randomExcerpt(randomContent.randomExcerpts);
 randomUtil.randomReadTime();
 randomUtil.randomDate("g:i:s a");
-randomUtil.randomAvatars();
 randomUtil.randomImages(1, "nature", "landscape");
 randomUtil.randomImages({ count: 10, query: "cityscape", orientation: "portrait" });
 ```
@@ -54,11 +52,11 @@ Classes &amp; Properties
 - `imageManager`: Instance of `RandomImages` for managing random image generation.
 - `avatarManager`: Instance of `RandomAvatars` for managing random avatars generation.
  
-### RandomContent
+### RandomContentUtil
 
 - **Description:** This class stores and manages arrays of data categorized by topics, titles, excerpts, and authors.
-- **Constructor Signature:** `new RandomContent(category)`
-- **Usage:** `const randomContent = new RandomContent(1);`
+- **Constructor Signature:** `new RandomContentUtil(category)`
+- **Usage:** `const randomContent = new RandomContentUtil(1);`
 - **Parameters:**
   - `category`: The category ID to select the corresponding data arrays.
    
@@ -128,13 +126,13 @@ randomImage Method
 ------------------
 
 ```
-const randomImage = new RandomImage(10, "landscape", "nature");
+const randomImage = new RandomImageUtil(10, "landscape", "nature");
 randomUtil.randomImages(10, "nature", "landscape");
 ```
 
 **Method Signature:** `new randomImages(count, orientation, query)`
-**Description:** The RandomImage class fetches a specified number of images based on the given query and orientation from the Unsplash API. It then populates elements with the `[data-random='img']` attribute with these images.
-**Usage:** Create an instance of RandomImage with the desired parameters. Call the `init()` method to start fetching and displaying images.
+**Description:** The `RandomImageUtil` class fetches a specified number of images based on the given query and orientation from the Unsplash API. It then populates elements with the `[data-random='img']` attribute with these images.
+**Usage:** Create an instance of `RandomImageUtil` with the desired parameters. Call the `init()` method to start fetching and displaying images.
 
 **Parameters:**
 

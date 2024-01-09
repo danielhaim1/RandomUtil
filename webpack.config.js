@@ -4,8 +4,6 @@ const nodeExternals = require("webpack-node-externals");
 const TerserPlugin = require("terser-webpack-plugin");
 
 require('dotenv').config();
-console.log('API Key:', process.env.RANDOM_IMAGE_API_KEY); // For testing purposes
-
 
 module.exports = [{
     mode: "production",
@@ -57,7 +55,7 @@ module.exports = [{
         path: path.resolve(__dirname, "dist"),
         libraryTarget: "commonjs2"
     },
-    devtool: 'source-map',
+    // devtool: 'source-map',
     optimization: {
         minimize: true,
         minimizer: [new TerserPlugin()]
