@@ -1,6 +1,10 @@
 # RandomUtil API
 =======================
 
+[![npm version](https://img.shields.io/npm/v/@danielhaim/randomutil)](https://www.npmjs.com/package/@danielhaim/randomutil)
+[![Downloads](https://img.shields.io/npm/dt/@danielhaim/randomutil.svg)](https://www.npmjs.com/package/@danielhaim/randomutil)
+![GitHub](https://img.shields.io/github/license/danielhaim1/randomutil)
+
 Overview
 --------
 
