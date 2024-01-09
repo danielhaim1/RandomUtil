@@ -145,6 +145,9 @@ class AvatarVariantGenerator {
   _createSvgElement() {
     const svgNS = "http://www.w3.org/2000/svg";
     const svg = document.createElementNS(svgNS, "svg");
+    svg.setAttributeNS(null, "style", `overflow: hidden;`);
+    svg.setAttributeNS(null, "width", this.size);
+    svg.setAttributeNS(null, "height", this.size);
     svg.setAttributeNS(null, "viewBox", `0 0 ${this.size} ${this.size}`);
     svg.setAttributeNS(null, "fill", "none");
     svg.setAttributeNS(null, "role", "img");
