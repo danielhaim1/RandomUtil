@@ -1,8 +1,11 @@
 {
   "name": "@danielhaim/RandomUtil",
   "version": "1.0.0",
-  "description": "An NPM package for easily populating DOM elements with random data, perfect for testing and prototyping web interfaces. Supports various data types including text, images, and dates.",
-  "keywords": [],
+  "description": "An NPM package for easily populating DOM elements with random data, perfect for testing and prototyping web interfaces. Supports various data types including text, images, avatars, and dates.",
+  "keywords": [
+    "lorem ipsum",
+    "lorem ipsum generator"
+  ],
   "homepage": "https://github.com/danielhaim1/RandomUtil#readme",
   "bugs": {
     "url": "https://github.com/danielhaim1/RandomUtil/issues"
@@ -19,6 +22,8 @@
   "main": "index.js",
   "files": [
     "/dist",
+    "/examples",
+    "sets",
     "/src",
     "LICENSE",
     "README.md"
