@@ -39,6 +39,7 @@ randomUtil.randomReadTime();
 randomUtil.randomDate("g:i:s a");
 randomUtil.randomImages(1, "nature", "landscape");
 randomUtil.randomImages({ count: 10, query: "cityscape", orientation: "portrait" });
+randomUtil.randomAvatar({ avatarOptions: { variant: "pixel" } });
 ```
 
 Classes &amp; Properties
@@ -148,6 +149,37 @@ The class includes robust error handling to manage potential issues such as miss
 
 randomAvatar Method
 ------------------
+
+The `randomAvatar` method allows you to create and display random avatars with various customization options. This method is part of the RandomUtil utility for adding dynamic content to your web application.
+
+### Usage Example
+
+```javascript
+const randomUtil = new RandomUtil();
+randomUtil.randomAvatar({
+  avatarOptions: {
+    variant: "smile",
+    colors: ["#FF5733", "#33FF57", "#5733FF"],
+    square: true,
+    size: 128,
+  },
+});
+```
+
+```
+const randomUtil = new RandomUtil();
+randomUtil.randomAvatar({ avatarOptions: { variant: "smile" } });
+```
+
+```
+const randomUtil = new RandomUtil();
+randomUtil.randomAvatar({ avatarOptions: { variant: "pixel" } });
+```
+
+```
+const randomUtil = new RandomUtil();
+randomUtil.randomAvatar({ avatarOptions: { variant: "bauhaus" } });
+```
 
 randomTopic Method
 ------------------
