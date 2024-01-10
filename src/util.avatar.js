@@ -27,26 +27,26 @@ export class RandomAvatar {
   constructor ({ variant, colors, square, size = 128 }) {
     this.variant = variant || "pixel";
     this.colors = colors || RandomAvatarUtils.loadPalette();
-    this.square = square !== undefined ? square : true; // Check if square is provided in avatarOptions
+    this.square = square !== undefined ? square : true;
     this.size = size;
     this.elementsCount = 4;
     const randomHash = RandomAvatarUtils.hashCode(Math.random().toString());
     this.elementProps = RandomAvatarUtils.createAvatarElements(randomHash, this.size, this.elementsCount, this.colors);
-    this.smileProps = RandomAvatarUtils.createSmileAttributes(randomHash, this.size, this.elementsCount, this.colors);
+    this.smileProps = RandomAvatarUtils.AvatarVariantSmileAttributes(randomHash, this.size, this.elementsCount, this.colors);
     this.variantGenerator = new AvatarVariantGenerator(this.size, this.elementProps, this.square, this.colors);
   }
 
   generateAvatar() {
     switch (this.variant) {
-      case "bauhaus":
-        return this.variantGenerator.createBauhaus();
+      case "abstract":
+        return this.variantGenerator.AvatarVariantAbstract();
       case "pixel":
-        const pixelColors = RandomAvatarUtils.createPixelColorArray(this.colors);
-        return this.variantGenerator.createPixel(pixelColors);
+        const pixelColors = RandomAvatarUtils.AvatarVariantPixelColorArray(this.colors);
+        return this.variantGenerator.AvatarVariantPixel(pixelColors);
       case "smile":
-        return this.variantGenerator.createSmile(this.smileProps);
+        return this.variantGenerator.AvatarVariantSmile(this.smileProps);
       default:
-        return this.variantGenerator.createBauhaus();
+        return this.variantGenerator.AvatarVariantAbstract();
     }
   }
 }
@@ -64,7 +64,6 @@ const RandomAvatarUtils = {
     return Math.abs(hash);
   },
 
-  // This method computes the position for an element based on a hash value.
   computePosition(hash, range, index, modifier = 0) {
     const value = (hash + modifier) % range;
     return index % 2 === 0 ? -value : value;
@@ -84,12 +83,12 @@ const RandomAvatarUtils = {
     });
   },
 
-  createPixelColorArray(colorPalette) {
+  AvatarVariantPixelColorArray(colorPalette) {
     const pixelCount = 128;
     return Array.from({ length: pixelCount }, () => colorPalette[Math.floor(Math.random() * colorPalette.length)]);
   },
 
-  createSmileAttributes(hash, avatarSize, elementCount, colorPalette) {
+  AvatarVariantSmileAttributes(hash, avatarSize, elementCount, colorPalette) {
     const colorIndex = (hash + 13) % colorPalette.length;
     return {
       wrapperColor: colorPalette[hash % colorPalette.length],
@@ -231,7 +230,7 @@ class AvatarVariantGenerator {
     return line;
   }
 
-  createSmile() {
+  AvatarVariantSmile() {
     const randomHash = RandomAvatarUtils.hashCode(Math.random().toString());
     const range = this.colors.length;
 
@@ -302,7 +301,7 @@ class AvatarVariantGenerator {
     return svg;
   }
 
-  createBauhaus() {
+  AvatarVariantAbstract() {
     const svg = this._createSvgElement();
 
     const rect1 = this._createRectangle(this.elementProps[0], 0, 0, this.size, this.size, this.elementProps[0].color);
@@ -322,39 +321,39 @@ class AvatarVariantGenerator {
 
     return svg;
   }
-createPixel(pixelColors) {
-    // Size of the outer square
-    const size = 128;
-    const svg = this._createSvgElement();
 
-    // Calculate the size of each smaller square
-    const smallSquareSize = size / 8;
+  AvatarVariantPixel(pixelColors) {
+      // Size of the outer square
+      const size = 128;
+      const svg = this._createSvgElement();
 
-    // Loop through rows and columns to create the smaller squares
-    for (let row = 0; row < 8; row++) {
-        for (let col = 0; col < 8; col++) {
-            // Create a rectangle for each small square
-            const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-            rect.setAttribute("x", col * smallSquareSize);
-            rect.setAttribute("y", row * smallSquareSize);
-            rect.setAttribute("width", smallSquareSize);
-            rect.setAttribute("height", smallSquareSize);
+      // Calculate the size of each smaller square
+      const smallSquareSize = size / 8;
 
-            // Set a random fill color from the provided pixelColors array
-            const randomColor = pixelColors[Math.floor(Math.random() * pixelColors.length)];
-            rect.setAttribute("fill", randomColor);
+      // Loop through rows and columns to create the smaller squares
+      for (let row = 0; row < 8; row++) {
+          for (let col = 0; col < 8; col++) {
+              // Create a rectangle for each small square
+              const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+              rect.setAttribute("x", col * smallSquareSize);
+              rect.setAttribute("y", row * smallSquareSize);
+              rect.setAttribute("width", smallSquareSize);
+              rect.setAttribute("height", smallSquareSize);
 
-            // Set the same color as the stroke to eliminate gaps
-            rect.setAttribute("stroke", randomColor);
-            rect.setAttribute("stroke-width", "1");
+              // Set a random fill color from the provided pixelColors array
+              const randomColor = pixelColors[Math.floor(Math.random() * pixelColors.length)];
+              rect.setAttribute("fill", randomColor);
 
-            // Append the rectangle to the SVG
-            svg.appendChild(rect);
-        }
-    }
+              // Set the same color as the stroke to eliminate gaps
+              rect.setAttribute("stroke", randomColor);
+              rect.setAttribute("stroke-width", "1");
 
-    // Return the SVG element with the pixel
-    return svg;
-}
+              // Append the rectangle to the SVG
+              svg.appendChild(rect);
+          }
+      }
 
+      // Return the SVG element with the pixel
+      return svg;
+  }
 }

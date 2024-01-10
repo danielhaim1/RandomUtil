@@ -188,7 +188,7 @@ randomUtil.randomAvatar({ avatarOptions: { variant: "pixel" } });
 
 ```
 const randomUtil = new RandomUtil();
-randomUtil.randomAvatar({ avatarOptions: { variant: "bauhaus" } });
+randomUtil.randomAvatar({ avatarOptions: { variant: "abstract" } });
 ```
 
 randomTopic Method
