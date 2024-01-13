@@ -8,7 +8,7 @@ Overview
 --------
 
 <a target="_blank" href="https://codepen.io/danielhaim/pen/BabKOBK/ef5e3e519c58b082797b3fc6b1b744c0">
-    <img src="https://raw.githubusercontent.com/danielhaim1/randomutil/main/examples/demo.png" width="100%" height="auto" alt="RandomUtil">
+    <img src="https://raw.githubusercontent.com/danielhaim1/randomutil/main/demo/demo.png" width="100%" height="auto" alt="RandomUtil">
 </a>
 
 # RandomUtil API Documentation  
