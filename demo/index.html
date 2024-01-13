@@ -52,7 +52,6 @@
         ul {
             line-height: var(--rem9);
         }
-
     </style>
     <div class="row">
 
@@ -81,14 +80,13 @@
                     </ul>
                     <pre><code>const randomContent = new RandomContentManager(1);</code></pre>
 
-
                     <h3>RandomController</h3>
                     <pre><code>const randomController = new RandomUtilController({});</code></pre>
 
                     <h3>RandomTag, RandomTitle, RandomExcerpt</h3>
                     <pre><code>randomController.randomTag(randomContent.randomTags);</code>
-<code>randomController.randomTitle(randomContent.randomTitles);</code>
-<code>randomController.randomExcerpt(randomContent.randomExcerpts);</code></pre>
+    <code>randomController.randomTitle(randomContent.randomTitles);</code>
+    <code>randomController.randomExcerpt(randomContent.randomExcerpts);</code></pre>
 
                     <h3>RandomReadTime</h3>
                     <pre><code>randomController.randomReadTime();</code></pre>
@@ -98,7 +96,7 @@
 
                     <h3>RandomImages</h3>
                     <pre><code>const randomImageCount = document.querySelectorAll("[data-random='img']").length;</code>
-<code>randomController.randomImages({ count: randomImageCount, query: "nature", orientation: "portrait", accessKey: UNSPLASH_API_KEY });</code></pre>
+    <code>randomController.randomImages({ count: randomImageCount, query: "nature", orientation: "portrait", accessKey: UNSPLASH_API_KEY });</code></pre>
 
                     <h3>RandomAvatar</h3>
                     <pre><code>randomController.randomAvatar({ avatarOptions: { variant: "defaultVariant" } });</code></pre>
@@ -128,8 +126,10 @@
                     <p><strong>Parameters:</strong></p>
                     <ul>
                         <li><code>count</code> (optional, default = 12): The number of images to fetch.</li>
-                        <li><code>query</code> (optional, default = "nature"): The search term used to query images from Unsplash.</li>
-                        <li><code>orientation</code> (optional, default = "landscape"): The orientation of the images ("landscape", "portrait", or "squarish").</li>
+                        <li><code>query</code> (optional, default = "nature"): The search term used to query images from
+                            Unsplash.</li>
+                        <li><code>orientation</code> (optional, default = "landscape"): The orientation of the images
+                            ("landscape", "portrait", or "squarish").</li>
                         <li><code>accessKey</code> (required): The Unsplash API access key.</li>
                     </ul>
 
@@ -171,16 +171,16 @@
                         </li>
                     </ul>
                     <pre>
-<code>const rc = new RandomController();</code>
-<code>rc.randomAvatar({</code>
-<code>  avatarOptions: {</code>
-<code>    variant: "smile",</code>
-<code>    colors: ["#FF5733", "#33FF57", "#5733FF"],</code>    
-<code>    square: true,</code>
-<code>    size: 128,</code>
-<code>  },</code>
-<code>});</code>
-                    </pre>
+    <code>const rc = new RandomController();</code>
+    <code>rc.randomAvatar({</code>
+    <code>  avatarOptions: {</code>
+    <code>    variant: "smile",</code>
+    <code>    colors: ["#FF5733", "#33FF57", "#5733FF"],</code>    
+    <code>    square: true,</code>
+    <code>    size: 128,</code>
+    <code>  },</code>
+    <code>});</code>
+                        </pre>
                     <div class="row">
                         <figure class="col">
                             <div data-random="avatar"></div>
@@ -515,7 +515,6 @@
                     </div>
                 </div>
             </div>
-
 
         </div>
 
