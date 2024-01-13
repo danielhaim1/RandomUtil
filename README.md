@@ -1,5 +1,4 @@
 # RandomUtil API
-=======================
 
 [![npm version](https://img.shields.io/npm/v/@danielhaim/randomutil)](https://www.npmjs.com/package/@danielhaim/randomutil)
 [![Downloads](https://img.shields.io/npm/dt/@danielhaim/randomutil.svg)](https://www.npmjs.com/package/@danielhaim/randomutil)
@@ -8,157 +7,125 @@
 Overview
 --------
 
-`RandomUtil` is an NPM package for easily populating DOM elements with random data, perfect for testing and prototyping web interfaces. Supports various data types including text, images, and dates.
-
-
 <a target="_blank" href="https://codepen.io/danielhaim/pen/BabKOBK/ef5e3e519c58b082797b3fc6b1b744c0">
     <img src="https://raw.githubusercontent.com/danielhaim1/randomutil/main/examples/demo.png" width="100%" height="auto" alt="RandomUtil">
 </a>
 
+# RandomUtil API Documentation  
 
------
+`RandomUtil` is an NPM package for easily populating DOM elements with random data, perfect for testing and prototyping web interfaces. It supports various data types including text, images, and dates.  
 
-- **Random Date:** `span[data-random="date"]`
-- **Random Read Time**: `span[data-random="time"]`
-- **Random Topic:** `span[data-random="topic"]`
-- **Random Title:** `span[data-random="title"]`
-- **Random Excerpt:** `span[data-random="excerpt"]`
-- **Random Image:**  `span[data-random="img"]`
-- **Random Avatar:**  `span[data-random="avatar"]`
- 
- ---
+## Getting Started  
 
-Initialization
---------------
+To get started, you can install RandomUtil via NPM:  
+
+```shell 
+npm i @danielhaim/randomutil
+```
+
+## Usage
+
+### RandomContentManager
+Initialize a RandomContentManager instance by providing the category ID to select the corresponding data arrays:
+  
+  ```javascript
+const randomContent = new RandomContentManager(1);
+```
+
+### RandomController
+
+Initialize a RandomController instance:
 
 ```js
-const randomContent = new RandomContentUtil(1);
-const randomUtil = new RandomUtil({
-    topics: "[data-random='topic']",
-    titles: "[data-random='title']",
-    time: "[data-random='time']",
-    excerpts: "[data-random='excerpt']",
-    date: "[data-random='date']",
-    imageSelector: "[data-random='img']"
-});
+const randomController = new RandomUtilController({});```
 
-randomUtil.randomTopic(randomContent.randomTopics);
-randomUtil.randomTitle(randomContent.randomTitles);
-randomUtil.randomExcerpt(randomContent.randomExcerpts);
-randomUtil.randomReadTime();
-randomUtil.randomDate("g:i:s a");
-randomUtil.randomImages(1, "nature", "landscape");
-randomUtil.randomImages({ count: 10, query: "cityscape", orientation: "portrait" });
-randomUtil.randomAvatar({ avatarOptions: { variant: "pixel" } });
-```
+### RandomTag, RandomTitle, RandomExcerpt
+Generate random tags, titles, and excerpts using the RandomController:
 
-Classes &amp; Properties
-------------------------
-
-- `topicElements`: NodeList of elements to be updated with random topics.
-- `titleElements`: NodeList of elements to be updated with random titles.
-- `readTimeEls`: NodeList of elements to be updated with random read times.
-- `excerptElements`: NodeList of elements to be updated with random excerpts.
-- `dateManager`: Instance of `RandomDates` for managing random date generation.
-- `imageManager`: Instance of `RandomImages` for managing random image generation.
-- `avatarManager`: Instance of `RandomAvatars` for managing random avatars generation.
- 
-### RandomContentUtil
-
-- **Description:** This class stores and manages arrays of data categorized by topics, titles, excerpts, and authors.
-- **Constructor Signature:** `new RandomContentUtil(category)`
-- **Usage:** `const randomContent = new RandomContentUtil(1);`
-- **Parameters:**
-  - `category`: The category ID to select the corresponding data arrays.
-   
-### RandomUtil
-
-- **Description:** This class is responsible for selecting random data from the provided arrays and updating the respective DOM elements.
-- **Constructor Signature:** `new RandomUtil()`
-- **Usage:** `const randomUtil = new RandomUtil();`
-- **Properties:** Inherits properties like `topicElements`, `titleElements`, etc.
-
-randomDate Method
------------------
-
-- **Method Signature:** `randomDate()`
-- **Description:** This method triggers the `dateManager` to generate and update elements with a random date.
-- **Usage:** `randomUtil.randomDate();`
-- **Target HTML Attribute:** This method targets elements with the `[data-random="date"]` attribute managed by the `dateManager` and updates their content with a formatted date.
- 
 ```js
-randomUtil.randomDate("F j, Y g:i a"); // November 6, 2010 12:50 am
-randomUtil.randomDate("F j, Y"); // November 6, 2010
-randomUtil.randomDate("F j, Y"); // November, 2010
-randomUtil.randomDate("F, Y"); // November 6, 2010
-randomUtil.randomDate("g:i a"); // 12:50 am
-randomUtil.randomDate("g:i:s a"); // 12:50:48 am
-randomUtil.randomDate("l, F jS, Y"); // Saturday, November 6th, 2010
-randomUtil.randomDate("M j, Y @ G:i"); // Nov 6, 2010 @ 0:50
-randomUtil.randomDate("Y/m/d \a\t g:i A"); // 2010/11/06 at 12:50 AM
-randomUtil.randomDate("Y/m/d \a\t g:ia"); // 2010/11/06 at 12:50am
-randomUtil.randomDate("Y/m/d g:i:s A"); // 2010/11/06 12:50:48 AM
-randomUtil.randomDate("Y/m/d"); // 2010/11/06
+randomController.randomTag(randomContent.randomTags);
+randomController.randomTitle(randomContent.randomTitles);
+randomController.randomExcerpt(randomContent.randomExcerpts);
 ```
 
-| **Category**    | **Format** | **Description**                                      | **Example**                        |
-|-----------------|------------|------------------------------------------------------|------------------------------------|
-| **Day of Month**|            |                                                      |                                    |
-|                 | **d**      | Numeric, with leading zeros                          | 01–31                              |
-|                 | **j**      | Numeric, without leading zeros                       | 1–31                               |
-|                 | **S**      | The English suffix for the day of the month          | st, nd or th in the 1st, 2nd or 15th |
-| **Weekday**     |            |                                                      |                                    |
-|                 | **l**      | Full name (lowercase ‘L’)                            | Sunday – Saturday                  |
-|                 | **D**      | Three letter name                                    | Mon – Sun                          |
-| **Month**       |            |                                                      |                                    |
-|                 | **m**      | Numeric, with leading zeros                          | 01–12                              |
-|                 | **n**      | Numeric, without leading zeros                       | 1–12                               |
-|                 | **F**      | Textual full                                         | January – December                 |
-|                 | **M**      | Textual three letters                                | Jan – Dec                          |
-| **Year**        |            |                                                      |                                    |
-|                 | **Y**      | Numeric, 4 digits                                    | Eg., 1999, 2003                    |
-|                 | **y**      | Numeric, 2 digits                                    | Eg., 99, 03                        |
-| **Time**        |            |                                                      |                                    |
-|                 | **a**      | Lowercase                                            | am, pm                             |
-|                 | **A**      | Uppercase                                            | AM, PM                             |
-|                 | **g**      | Hour, 12-hour, without leading zeros                 | 1–12                               |
-|                 | **h**      | Hour, 12-hour, with leading zeros                    | 01–12                              |
-|                 | **G**      | Hour, 24-hour, without leading zeros                 | 0-23                               |
-|                 | **H**      | Hour, 24-hour, with leading zeros                    | 00-23                              |
-|                 | **i**      | Minutes, with leading zeros                          | 00-59                              |
-|                 | **s**      | Seconds, with leading zeros                          | 00-59                              |
-|                 | **T**      | Timezone abbreviation                                | Eg., EST, MDT …                    |
-| **Full Date/Time** |         |                                                      |                                    |
-|                 | **c**      | ISO 8601                                             | 2004-02-12T15:19:21+00:00          |
-|                 | **r**      | RFC 2822                                             | Thu, 21 Dec
-                         
+### randomReadTime
+Generate a random read time:
 
-randomImage Method
-------------------
-
-```
-const randomImage = new RandomImageUtil(10, "landscape", "nature");
-randomUtil.randomImages(10, "nature", "landscape");
+```js
+randomController.randomReadTime();
 ```
 
-**Method Signature:** `new randomImages(count, orientation, query)`
-**Description:** The `RandomImageUtil` class fetches a specified number of images based on the given query and orientation from the Unsplash API. It then populates elements with the `[data-random='img']` attribute with these images.
-**Usage:** Create an instance of `RandomImageUtil` with the desired parameters. Call the `init()` method to start fetching and displaying images.
+### randomDate
 
-**Parameters:**
+| **Category** | **Format** | **Description** | **Example** |
+|---|---|---|---|
+| Day of Month |
+| d | Numeric, with leading zeros | 01–31 | 01–31 |
+| j | Numeric, without leading zeros | 1–31 | 1–31 |
+| S | The English suffix for the day of the month | st, nd or th in the 1st, 2nd or 15th | st, nd or th in the 1st, 2nd or 15th |
+| Weekday |
+| l | Full name (lowercase ‘L’) | Sunday – Saturday | Sunday – Saturday |
+| D | Three letter name | Mon – Sun | Mon – Sun |
+| Month |
+| m | Numeric, with leading zeros | 01–12 | 01–12 |
+| n | Numeric, without leading zeros | 1–12 | 1–12 |
+| F | Textual full | January – December | January – December |
+| M | Textual three letters | Jan – Dec | Jan – Dec |
+| Year |
+| Y | Numeric, 4 digits | Eg., 1999, 2003 | Eg., 1999, 2003 |
+| y | Numeric, 2 digits | Eg., 99, 03 | Eg., 99, 03 |
+| Time |
+| a | Lowercase | am, pm | am, pm |
+| A | Uppercase | AM, PM | AM, PM |
+| g | Hour, 12-hour, without leading zeros | 1–12 | 1–12 |
+| h | Hour, 12-hour, with leading zeros | 01–12 | 01–12 |
+| G | Hour, 24-hour, without leading zeros | 0-23 | 0-23 |
+| H | Hour, 24-hour, with leading zeros | 00-23 | 00-23 |
+| i | Minutes, with leading zeros | 00-59 | 00-59 |
+| s | Seconds, with leading zeros | 00-59 | 00-59 |
+| T | Timezone abbreviation | Eg., EST, MDT … | Eg., EST, MDT … |
+| Full Date/Time |
+| c | ISO 8601 | 2004-02-12T15:19:21+00:00 | 2004-02-12T15:19:21+00:00 |
+| r | RFC 2822 | Thu, 21 Dec | Thu, 21 Dec |
+| U | Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT) | 1577836800 | 1577836800 |
+| M jS, Y | Custom | Dec 21st, 2019 | Dec 21st, 2019 |
+| l, F jS, Y | Custom | Saturday, December 21st, 2019 | Saturday, December 21st, 2019 |
 
-- `count` (optional, default = 12): The number of images to fetch.
-- `query` (optional, default = "nature"): The search term used to query images from Unsplash.
-- `orientation` (optional, default = "landscape"): The orientation of the images ("landscape", "portrait", or "squarish").
- 
+### randomImages
+
+The `randomImage` method allows you to fetch and display a set of random images from Unsplash, based on specified parameters.
+
+### Prerequisites
+Register for an Unsplash API key at [Unsplash Applications](https://unsplash.com/oauth/applications)
+
+### Usage
+
+First, import the `RandomImageUtil` class from your package. Then, initialize it with your Unsplash API key and desired parameters.
+
+
+```
+const randomImage = new RandomImageUtil(count, query, orientation, accessKey);
+```
+
+- `count` (Optional): Number of images to fetch. Default is 12.
+- `query` (Optional): The category of images. Default is "nature".
+- `orientation` (Optional): The orientation of the images. Default is "landscape".
+- `accessKey` (Optional): Your Unsplash API key. If not provided, it will default to process.env.UNSPLASH_API_KEY.
+
+```js
+const UNSPLASH_ACCESS_KEY = 'your-api-key';
+const randomImage = new RandomImageUtil(10, "nature", "landscape", UNSPLASH_ACCESS_KEY);
+```
+
+This initializes the `RandomImageUtil` with the capability to fetch 10 nature-themed landscape images using the provided Unsplash API key.
+
 **Target HTML Attribute:** The method targets elements with the `[data-random='img']` attribute. Depending on the element's tag (`img` for image tags or a `div` for background images), it sets the source or background style respectively.
 
 ### Error Handling
 
 The class includes robust error handling to manage potential issues such as missing access keys, network errors, or unsuccessful API calls. Errors are logged to the console for debugging purposes. It's recommended to extend this for user-friendly error messages or alternative content display in a production environment.
 
-randomAvatar Method
-------------------
+### randomAvatar
 
 The `randomAvatar` method allows you to create and display random avatars with various customization options. This method is part of the RandomUtil utility for adding dynamic content to your web application.
 
@@ -176,17 +143,17 @@ randomUtil.randomAvatar({
 });
 ```
 
-```
+```js
 const randomUtil = new RandomUtil();
 randomUtil.randomAvatar({ avatarOptions: { variant: "smile" } });
 ```
 
-```
+```js
 const randomUtil = new RandomUtil();
 randomUtil.randomAvatar({ avatarOptions: { variant: "pixel" } });
 ```
 
-```
+```js
 const randomUtil = new RandomUtil();
 randomUtil.randomAvatar({ avatarOptions: { variant: "abstract" } });
 ```
@@ -235,29 +202,31 @@ randomExcerpt Method
 ├── LICENSE
 ├── README.md
 ├── __test__
-│   └── RandomUtil.amd.test.js
+│   └── RandomUtil.amd.test.js
 ├── babel.config.js
-├── demo
-│   └── index.html
 ├── dist
-│   ├── RandomUtil.amd.js
-│   ├── RandomUtil.js
-│   └── RandomUtil.js.map
+│   ├── RandomUtil.amd.js
+│   ├── RandomUtil.js
+│   └── RandomUtil.js.map
+├── demo
+│   ├── demo.css
+│   ├── demo.js
+│   ├── demo.png
+│   └── index.html
 ├── index.js
 ├── jest.config.js
-├── package-lock.json
 ├── package.json
 ├── sets
-│   ├── palette.1.json
-│   ├── palette.2.json
-│   ├── palette.3.json
-│   └── palette.4.json
+│   ├── palette.0.json
+│   ├── palette.1.json
+│   ├── palette.2.json
+│   ├── palette.3.json
+│   └── palette.4.json
 ├── src
-│   ├── index.js
-│   ├── util.avatar.js
-│   ├── util.avatar.v2.js
-│   ├── util.content.js
-│   ├── util.date.js
-│   └── util.image.js
+│   ├── index.js
+│   ├── util.avatar.js
+│   ├── util.content.js
+│   ├── util.date.js
+│   └── util.image.js
 └── webpack.config.js
 ```

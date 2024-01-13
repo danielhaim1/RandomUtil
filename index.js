@@ -1,9 +1,9 @@
-import { RandomContentUtil } from './src/util.content.js';
-import { RandomUtil } from './src/index.js';
+import { RandomContentManager } from './src/util.content.js';
+import { RandomUtilController } from './src/index.js';
 
 const exports = {
-    RandomContentUtil,
-    RandomUtil
+    RandomContentManager,
+    RandomUtilController
 };
 
 // Export for Node.js environment

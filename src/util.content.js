@@ -1,8 +1,8 @@
-export class RandomContentUtil {
+export class RandomContentManager {
     constructor(category) {
         this.category = category;
         this.randomExcerpts = [];
-        this.randomTopics = [];
+        this.randomTags = [];
         this.randomTitles = [];
 
         this.dataByCategory = {
@@ -91,7 +91,7 @@ export class RandomContentUtil {
                     "Join us in the wildlife crusade to protect and conserve our natural world.",
                     "Discover our role as nature's guardians and advocates for wildlife preservation."
                 ],
-                topics: [
+                tags: [
                     "Wildlife Preservation",
                     "Conservation",
                     "Habitat Protection",
@@ -204,7 +204,7 @@ export class RandomContentUtil {
                     "Dive into the depths of our oceans and discover their fascinating biodiversity.",
                     "Rediscover the wonders of ancient civilizations and their enduring legacies."
                 ],
-                topics: [
+                tags: [
                     "Nature",
                     "Wildlife",
                     "Climate",
@@ -316,7 +316,7 @@ export class RandomContentUtil {
                     "Experience the adventures of AR/VR gaming and explore virtual worlds.",
                     "Cryptocurrency is reshaping finance and challenging traditional systems."
                 ],
-                topics: [
+                tags: [
                     "Innovation",
                     "Design",
                     "Tech Trends",
@@ -371,7 +371,7 @@ export class RandomContentUtil {
         if (categoryData) {
             this.randomTitles = categoryData.titles;
             this.randomExcerpts = categoryData.excerpts;
-            this.randomTopics = categoryData.topics;
+            this.randomTags = categoryData.tags;
         } else {
             console.warn("Invalid category selected");
         }

@@ -2,31 +2,32 @@ import { RandomDateUtil } from './util.date.js';
 import { RandomImageUtil } from './util.image.js';
 import { RandomAvatar } from './util.avatar.js';
 
-export class RandomUtil {
-    constructor (selectors = {}) {
+export class RandomUtilController {
+    constructor(selectors = {}) {
         this.initializeElements(selectors);
-        this.dateManager = new RandomDateUtil(this);
-        this.imageManager = new RandomImageUtil(this);
-        this.avatarManager = new RandomAvatar(this);
+        this.imageManager = null;
+        this.dateManager = null;
+        this.avatarManager = null;
     }
 
-    initializeElements({ topics, titles, time, excerpts, date, avatarSelector }) {
-        this.topicElements = this.getElements(topics);
-        this.titleElements = this.getElements(titles);
-        this.readTimeEls = this.getElements(time);
-        this.excerptElements = this.getElements(excerpts);
-        this.dateElements = this.getElements(date);
-        this.avatarElements = this.getElements(avatarSelector || '[data-random="avatar"]');
+    initializeElements({ tag, title, time, excerpt, date, img, avatar }) {
+        this.tagElements = this.getElements(tag || '[data-random="tag"]');
+        this.titleElements = this.getElements(title || '[data-random="title"]');
+        this.readTimeEls = this.getElements(time || '[data-random="read-time"]');
+        this.excerptElements = this.getElements(excerpt || '[data-random="excerpt"]');
+        this.imageElements = this.getElements(img || '[data-random="img"]');
+        this.dateElements = this.getElements(date || '[data-random="date"]');
+        this.dateSpecificElements = this.getElements('[data-random-date]');
+        this.avatarElements = this.getElements(avatar || '[data-random="avatar"]');
     }
 
     getElements(selector) {
         return selector ? document.querySelectorAll(selector) : [];
     }
 
-
     updateElements(elements, values, formatter = (v) => v) {
-        if (!elements) {
-            console.log("No elements found");
+        if (!elements || elements.length === 0) {
+            console.log("No elements found for the selector");
             return;
         }
         elements.forEach((el, index) => {
@@ -34,12 +35,13 @@ export class RandomUtil {
         });
     }
 
-    randomTopic(topics) {
-        if (!this.topicElements || this.topicElements.length === 0) {
-            console.warn("No topic elements found.");
+
+    randomTag(tags) {
+        if (!this.tagElements || this.tagElements.length === 0) {
+            console.warn("No tag elements found.");
             return;
         }
-        this.updateElements(this.topicElements, topics);
+        this.updateElements(this.tagElements, tags);
     }
 
     randomTitle(titles) {
@@ -60,22 +62,45 @@ export class RandomUtil {
     }
 
     randomDate(format) {
-        if (!this.dateElements || this.dateElements.length === 0) {
-            console.warn("No date elements found.");
-            return;
+        this.dateManager = new RandomDateUtil(this);
+
+        if (this.dateElements && this.dateElements.length > 0) {
+            this.dateManager.randomDate(format, this.dateElements);
+        } else {
+            console.warn("No general date elements found.");
         }
 
-        this.dateManager.randomDate(format);
+        if (this.dateSpecificElements && this.dateSpecificElements.length > 0) {
+            this.dateSpecificElements.forEach(el => {
+                const specificFormat = el.getAttribute('data-random-date');
+                this.dateManager.randomDate(specificFormat, [el]);
+            });
+        } else {
+            console.warn("No specific date format elements found.");
+        }
     }
 
-    randomImages({ count = 12, query = "nature", orientation = "landscape" }) {
-        const imageManager = new RandomImageUtil(count, query, orientation);
-        imageManager.init();
+    randomImages({ count = null, query = null, orientation = null, accessKey = null }) {
+        if (!this.imageElements || this.imageElements.length === 0) {
+            console.warn("No image elements found.");
+            return;
+        }
+        this.imageElements.forEach(element => {
+            const specificQuery = element.getAttribute('data-random-img') || query;
+            const effectiveCount = count || this.imageElements.length;
+            const effectiveOrientation = orientation || "landscape";
+            const imageManager = new RandomImageUtil([element], effectiveCount, specificQuery, effectiveOrientation, accessKey);
+            imageManager.init();
+        });
     }
-
+    
     randomAvatar({ avatarOptions = {} }) {
         this.avatarElements.forEach(element => {
-            const avatarManager = new RandomAvatar(avatarOptions);
+            // Check for a specific variant set in the element's data attribute
+            const specificVariant = element.getAttribute('data-random-avatar');
+            const options = specificVariant ? { ...avatarOptions, variant: specificVariant } : avatarOptions;
+    
+            const avatarManager = new RandomAvatar(options);
             element.innerHTML = '';
             element.appendChild(avatarManager.generateAvatar());
         });
