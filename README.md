@@ -17,7 +17,7 @@ Overview
 
 ## Getting Started  
 
-To get started, you can install RandomUtil via NPM:  
+To get started, you can install `RandomUtil` via NPM:  
 
 ```shell 
 npm i @danielhaim/randomutil
