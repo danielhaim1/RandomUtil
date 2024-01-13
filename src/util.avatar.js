@@ -51,7 +51,7 @@ export class RandomAvatar {
 			case "smile":
 				return this.variantGenerator.AvatarVariantSmile(this.smileProps);
 			default:
-				return this.variantGenerator.AvatarVariantAbstract();
+				return this.variantGenerator.AvatarVariantPixel();
 		}
 	}
 }
