@@ -28,7 +28,7 @@ npm i @danielhaim/randomutil
 ### RandomContentManager
 Initialize a RandomContentManager instance by providing the category ID to select the corresponding data arrays:
   
-  ```javascript
+```js
 const randomContent = new RandomContentManager(1);
 ```
 
@@ -37,7 +37,8 @@ const randomContent = new RandomContentManager(1);
 Initialize a RandomController instance:
 
 ```js
-const randomController = new RandomUtilController({});```
+const randomController = new RandomUtilController({});
+```
 
 ### RandomTag, RandomTitle, RandomExcerpt
 Generate random tags, titles, and excerpts using the RandomController:
