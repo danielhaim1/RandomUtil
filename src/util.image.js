@@ -50,29 +50,36 @@ export class RandomImageUtil {
 	 * @returns {void}
 	 */
 	async init() {
+		console.log('init function called'); // Added console log to track function calls
+	   
 		if (!this.isInitialized) return;
-
+	   
 		try {
-			if (!this.elements.length) {
-				console.log('No image elements found for RandomImageUtil.');
-				return;
-			}
-
-			// Check if the browser supports the Cache API.
-			const cache = await caches.open("randomutil-cache");
-			const cachedResponse = await cache.match(this.apiUrl);
-
-			if (cachedResponse) {
-				// If the response is cached, apply the images from the cache.
-				this.applyImagesFromCache(cachedResponse, this.elements);
-			} else {
-				// If the response is not cached, fetch the images and apply them.
-				this.fetchAndApplyImages(cache, this.elements);
-			}
+		    if (!this.elements.length) {
+			 console.log('No image elements found for RandomImageUtil.');
+			 return;
+		    }
+	   
+		    console.log('Attempting to retrieve images'); // Added console log before image retrieval
+	   
+		    // Check if the browser supports the Cache API.
+		    const cache = await caches.open("randomutil-cache");
+		    const cachedResponse = await cache.match(this.apiUrl);
+	   
+		    if (cachedResponse) {
+			 console.log('Images found in cache'); // Added console log for cached response
+			 // If the response is cached, apply the images from the cache.
+			 this.applyImagesFromCache(cachedResponse, this.elements);
+		    } else {
+			 console.log('Fetching images from API'); // Added console log for API fetch
+			 // If the response is not cached, fetch the images and apply them.
+			 this.fetchAndApplyImages(cache, this.elements);
+		    }
 		} catch (error) {
-			console.error('Error initializing RandomImageUtil:', error);
+		    console.error('Error initializing RandomImageUtil:', error);
 		}
-	}
+	   }
+	   
 
 	/** 
 	 * Apply the images from the cache.
@@ -119,9 +126,11 @@ export class RandomImageUtil {
 	 * @returns {void}
 	 */
 	distributeImages(elements, images) {
+		console.log('Distributing images:', images);
 		elements.forEach((element, index) => {
 			const imageData = images[index % images.length];
 			this.updateImage(element, imageData);
+			console.log('Distributing image:', images[index % images.length]);
 		});
 	}
 

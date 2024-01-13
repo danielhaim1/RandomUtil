@@ -42,16 +42,17 @@ export class RandomAvatar {
 	 * @example: generateAvatar();
 	 */
 	generateAvatar() {
+		const pixelColors = RandomAvatarUtils.AvatarVariantPixelColorArray(this.colors);
+
 		switch (this.variant) {
 			case "abstract":
 				return this.variantGenerator.AvatarVariantAbstract();
 			case "pixel":
-				const pixelColors = RandomAvatarUtils.AvatarVariantPixelColorArray(this.colors);
 				return this.variantGenerator.AvatarVariantPixel(pixelColors);
 			case "smile":
 				return this.variantGenerator.AvatarVariantSmile(this.smileProps);
 			default:
-				return this.variantGenerator.AvatarVariantPixel();
+				return this.variantGenerator.AvatarVariantPixel(pixelColors);
 		}
 	}
 }

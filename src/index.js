@@ -85,9 +85,10 @@ export class RandomUtilController {
             console.warn("No image elements found.");
             return;
         }
+        
         this.imageElements.forEach(element => {
             const specificQuery = element.getAttribute('data-random-img') || query;
-            const effectiveCount = count || this.imageElements.length;
+            const effectiveCount = 1;
             const effectiveOrientation = orientation || "landscape";
             const imageManager = new RandomImageUtil([element], effectiveCount, specificQuery, effectiveOrientation, accessKey);
             imageManager.init();
