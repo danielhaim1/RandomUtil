@@ -13,7 +13,7 @@ Overview
 
 # RandomUtil API Documentation  
 
-`RandomUtil` is an NPM package for easily populating DOM elements with random data, perfect for testing and prototyping web interfaces. It supports various data types including text, images, and dates.  
+`RandomUtil` is an NPM package for easily populating `DOM` elements with random data, perfect for testing and prototyping web interfaces. It supports various data types including text, images, and dates.  
 
 ## Getting Started  
 
