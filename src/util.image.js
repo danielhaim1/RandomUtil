@@ -12,7 +12,10 @@
  */
 
 export class RandomImageUtil {
-	constructor(elements, count = null, query = null, orientation = null, accessKey = null) {
+	constructor (elements, count = null, query = null, orientation = null, accessKey = null, uniqueId = null) {
+		// ... existing code ...
+		this.uniqueId = uniqueId; // Add this line
+
 		this.elements = elements;
 		this.count = count;
 		this.query = query;
@@ -50,36 +53,50 @@ export class RandomImageUtil {
 	 * @returns {void}
 	 */
 	async init() {
-		console.log('init function called'); // Added console log to track function calls
-	   
+		console.log('init function called');
+
 		if (!this.isInitialized) return;
-	   
-		try {
-		    if (!this.elements.length) {
-			 console.log('No image elements found for RandomImageUtil.');
-			 return;
-		    }
-	   
-		    console.log('Attempting to retrieve images'); // Added console log before image retrieval
-	   
-		    // Check if the browser supports the Cache API.
-		    const cache = await caches.open("randomutil-cache");
-		    const cachedResponse = await cache.match(this.apiUrl);
-	   
-		    if (cachedResponse) {
-			 console.log('Images found in cache'); // Added console log for cached response
-			 // If the response is cached, apply the images from the cache.
-			 this.applyImagesFromCache(cachedResponse, this.elements);
-		    } else {
-			 console.log('Fetching images from API'); // Added console log for API fetch
-			 // If the response is not cached, fetch the images and apply them.
-			 this.fetchAndApplyImages(cache, this.elements);
-		    }
-		} catch (error) {
-		    console.error('Error initializing RandomImageUtil:', error);
+
+		const cache = await caches.open("randomutil-cache");
+
+		for (const element of this.elements) {
+			const specificQuery = element.getAttribute('data-random-img') || this.query;
+			const specificOrientation = element.getAttribute('data-random-orientation') || this.orientation;
+
+			// Use the uniqueId passed to the constructor for generating the cacheKey
+			const cacheKey = generateCacheKey(this.query, this.orientation, this.uniqueId); // Use this.uniqueId
+
+			console.log('Cache Key:', cacheKey); // Log the cache key
+
+			let cachedResponse = await cache.match(cacheKey);
+
+			if (!cachedResponse) {
+				console.log('Fetching image for query:', specificQuery);
+				const apiUrl = this.createApiUrl(specificQuery, specificOrientation);
+				cachedResponse = await fetch(apiUrl, {
+					headers: { "Cache-Control": this.cacheControlHeader }
+				});
+				await cache.put(cacheKey, cachedResponse.clone());
+			} else {
+				console.log('Using cached data for key:', cacheKey); // Log when using cached data
+			}
+
+			this.applyImagesFromCache(cachedResponse, [element]);
 		}
-	   }
-	   
+	}
+
+	/**
+	 * Create the API URL.
+	 * 
+	 * @param {String} query - The query to search for.
+	 * @param {String} orientation - The orientation of the images to fetch.
+	 * 
+	 * @returns {String} The API URL.
+	 */
+	createApiUrl(query, orientation) {
+		return `https://api.unsplash.com/photos/random/?client_id=${this.accessKey}&count=${this.count}&orientation=${orientation}&query=${encodeURIComponent(query)}`;
+	}
+
 
 	/** 
 	 * Apply the images from the cache.
@@ -102,14 +119,14 @@ export class RandomImageUtil {
 	 * 
 	 * @returns {void}
 	 */
-	async fetchAndApplyImages(cache, elements) {
+	async fetchAndApplyImages(cache, elements, cacheKey) {
 		try {
-			const response = await fetch(this.apiUrl, {
+			const response = await fetch(cacheKey, {
 				headers: {
 					"Cache-Control": this.cacheControlHeader
 				}
 			});
-			cache.put(new Request(this.apiUrl), response.clone());
+			cache.put(new Request(cacheKey), response.clone());
 			const images = await response.json();
 			this.distributeImages(elements, images);
 		} catch (error) {
@@ -126,11 +143,11 @@ export class RandomImageUtil {
 	 * @returns {void}
 	 */
 	distributeImages(elements, images) {
-		console.log('Distributing images:', images);
+		// console.log('Distributing images:', images);
 		elements.forEach((element, index) => {
 			const imageData = images[index % images.length];
 			this.updateImage(element, imageData);
-			console.log('Distributing image:', images[index % images.length]);
+			// console.log('Distributing image:', images[index % images.length]);
 		});
 	}
 
@@ -188,4 +205,8 @@ export class RandomImageUtil {
 			}
 		}
 	}
+}
+
+function generateCacheKey(query, orientation, uniqueId) {
+	return `randomutil-cache-${query}-${orientation}-${uniqueId}`;
 }

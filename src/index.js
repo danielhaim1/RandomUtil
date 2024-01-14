@@ -3,7 +3,7 @@ import { RandomImageUtil } from './util.image.js';
 import { RandomAvatar } from './util.avatar.js';
 
 export class RandomUtilController {
-    constructor(selectors = {}) {
+    constructor (selectors = {}) {
         this.initializeElements(selectors);
         this.imageManager = null;
         this.dateManager = null;
@@ -85,27 +85,26 @@ export class RandomUtilController {
             console.warn("No image elements found.");
             return;
         }
-        
-        this.imageElements.forEach(element => {
+        this.imageElements.forEach((element, index) => {
             const specificQuery = element.getAttribute('data-random-img') || query;
-            const effectiveCount = 1;
-            const effectiveOrientation = orientation || "landscape";
-            const imageManager = new RandomImageUtil([element], effectiveCount, specificQuery, effectiveOrientation, accessKey);
+            const uniqueId = `${new Date().getTime()}-${index}`; // This ensures each key is unique
+            const imageManager = new RandomImageUtil([element], count, specificQuery, orientation, accessKey, uniqueId);
             imageManager.init();
         });
     }
     
+
     randomAvatar({ avatarOptions = {} }) {
         this.avatarElements.forEach(element => {
             // Check for a specific variant set in the element's data attribute
             const specificVariant = element.getAttribute('data-random-avatar');
             const options = specificVariant ? { ...avatarOptions, variant: specificVariant } : avatarOptions;
-    
+
             const avatarManager = new RandomAvatar(options);
             element.innerHTML = '';
             element.appendChild(avatarManager.generateAvatar());
         });
     }
-    
+
 }
 
