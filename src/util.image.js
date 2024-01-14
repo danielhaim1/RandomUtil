@@ -207,6 +207,15 @@ export class RandomImageUtil {
 	}
 }
 
+/**
+ * Generate the cache key.
+ * 
+ * @param {String} query - The query to search for.
+ * @param {String} orientation - The orientation of the images to fetch.
+ * 
+ * @returns {String} The cache key.
+ */
+
 function generateCacheKey(query, orientation, uniqueId) {
 	return `randomutil-cache-${query}-${orientation}-${uniqueId}`;
 }
