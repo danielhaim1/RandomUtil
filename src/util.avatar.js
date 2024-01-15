@@ -16,7 +16,7 @@ import palette from "../sets/palette.0.json";
  */
 
 export class RandomAvatar {
-	constructor({
+	constructor ({
 		variant,
 		colors,
 		square,
@@ -212,7 +212,7 @@ const RandomAvatarUtils = {
  * @returns {void}
  */
 class AvatarVariantGenerator {
-	constructor(size, elementProps, square, colors) {
+	constructor (size, elementProps, square, colors) {
 		this.size = size;
 		this.elementProps = elementProps;
 		this.square = square;
@@ -280,7 +280,6 @@ class AvatarVariantGenerator {
 
 		return group;
 	}
-
 
 	/**
 	 * @name _createPath
@@ -479,21 +478,30 @@ class AvatarVariantGenerator {
 	AvatarVariantAbstract() {
 		const svg = this._createSvgElement();
 
+		// Rectangle 1: Full size, centered
 		const rect1 = this._createRectangle(this.elementProps[0], 0, 0, this.size, this.size, this.elementProps[0].color);
 		svg.appendChild(rect1);
-
-		const rect2Transform = `translate(${this.elementProps[1].translateX} ${this.elementProps[1].translateY}) rotate(${this.elementProps[1].rotate} ${this.size / 2} ${this.size / 2})`;
-		const rect2 = this._createRectangle(this.elementProps[1], (this.size) / 2, (this.size) / 2, this.size, this.elementProps[1].isSquare ? this.size : this.size / 6, this.elementProps[1].color, rect2Transform);
+	   
+		// Rectangle 2: Ensure it stays within bounds of rect1
+		const rect2MaxSize = this.size * 0.5; // Limit to 50% of the main rectangle size
+		const rect2Width = this.elementProps[1].isSquare ? rect2MaxSize : rect2MaxSize * 0.5;
+		const rect2Height = rect2Width;
+		const rect2Transform = `translate(${Math.min(this.elementProps[1].translateX, this.size - rect2Width)} ${Math.min(this.elementProps[1].translateY, this.size - rect2Height)}) rotate(${this.elementProps[1].rotate} ${rect2Width / 2} ${rect2Height / 2})`;
+		const rect2 = this._createRectangle(this.elementProps[1], 0, 0, rect2Width, rect2Height, this.elementProps[1].color, rect2Transform);
 		svg.appendChild(rect2);
-
-		const circleTransform = `translate(${this.elementProps[2].translateX} ${this.elementProps[2].translateY})`;
-		const circle = this._createCircle(this.elementProps[2], this.size / 2, this.size / 2, this.size / 4, this.elementProps[2].color, circleTransform);
+	   
+		// Circle: Ensure it stays within bounds of rect1
+		const circleRadius = Math.min(this.size * 0.25, (this.size - Math.max(this.elementProps[2].translateX, this.elementProps[2].translateY)) / 2);
+		const circleTransform = `translate(${Math.min(this.elementProps[2].translateX, this.size - circleRadius * 2)} ${Math.min(this.elementProps[2].translateY, this.size - circleRadius * 2)})`;
+		const circle = this._createCircle(this.elementProps[2], circleRadius, circleRadius, circleRadius, this.elementProps[2].color, circleTransform);
 		svg.appendChild(circle);
-
-		const lineTransform = `translate(${this.elementProps[3].translateX} ${this.elementProps[3].translateY}) rotate(${this.elementProps[3].rotate} ${this.size / 2} ${this.size / 2})`;
-		const line = this._createLine(this.elementProps[3], 1, this.size / 2, this.size, this.size / 2, "3", this.elementProps[3].color, lineTransform);
+	   
+		// Line: Ensure it stays within bounds of rect1
+		const lineLength = this.size * 0.9; // 90% of the main rectangle size
+		const lineTransform = `translate(${Math.min(this.elementProps[3].translateX, this.size - lineLength)} ${Math.min(this.elementProps[3].translateY, this.size / 2)}) rotate(${this.elementProps[3].rotate} ${lineLength / 2} 0)`;
+		const line = this._createLine(this.elementProps[3], 0, 0, lineLength, 0, "3", this.elementProps[3].color, lineTransform);
 		svg.appendChild(line);
-
+		
 		return svg;
 	}
 
