@@ -11,21 +11,26 @@
  * 
  */
 
+/**
+ * The global element counter.
+ */
+let globalElementCounter = 0;
+
 export class RandomImageUtil {
 	constructor (elements, count = null, query = null, orientation = null, accessKey = null, uniqueId = null) {
-		// ... existing code ...
-		this.uniqueId = uniqueId; // Add this line
-
 		this.elements = elements;
 		this.count = count;
 		this.query = query;
 		this.orientation = orientation;
 		this.accessKey = accessKey || process.env.UNSPLASH_API_KEY;
+		this.uniqueId = uniqueId || Math.random().toString(36).substring(7);
 
 		if (!this.accessKey) {
 			console.error('No Unsplash API key provided.');
 			return;
 		}
+
+		this.cacheKey = generateCacheKey(this.query, this.orientation, this.uniqueId);
 
 		this.cacheTime = 86400;
 		this.cacheControlHeader = `public, max-age=${this.cacheTime}`;
@@ -52,35 +57,53 @@ export class RandomImageUtil {
 	 * 
 	 * @returns {void}
 	 */
+
 	async init() {
 		console.log('init function called');
 
 		if (!this.isInitialized) return;
 
+		// Check if the browser supports the Cache API.
 		const cache = await caches.open("randomutil-cache");
 
 		for (const element of this.elements) {
+			// Check if the element has a data-element-id attribute. If not, create one.
+			let elementId = element.getAttribute('data-element-id');
+			if (!elementId) {
+				// If the element doesn't have a data-element-id attribute, create one.
+				elementId = `element-${globalElementCounter++}`;
+				// Add the data-element-id attribute to the element.
+				element.setAttribute('data-element-id', elementId);
+			}
+
+			// Check if the element has a data-random-img attribute. If not, use the default query.
 			const specificQuery = element.getAttribute('data-random-img') || this.query;
+
+			// Check if the element has a data-random-orientation attribute. If not, use the default orientation.
 			const specificOrientation = element.getAttribute('data-random-orientation') || this.orientation;
 
-			// Use the uniqueId passed to the constructor for generating the cacheKey
-			const cacheKey = generateCacheKey(this.query, this.orientation, this.uniqueId); // Use this.uniqueId
+			// Generate the cache key.
+			const elementCacheKey = generateCacheKey(specificQuery, specificOrientation, elementId);
 
-			console.log('Cache Key:', cacheKey); // Log the cache key
-
-			let cachedResponse = await cache.match(cacheKey);
+			// Check if the cache contains the image.
+			let cachedResponse = await cache.match(elementCacheKey);
+			console.log('Checking cache for key:', elementCacheKey);
 
 			if (!cachedResponse) {
-				console.log('Fetching image for query:', specificQuery);
+				console.log('No cached data found. Fetching new image for query:', specificQuery);
+
+				// Fetch the image.
 				const apiUrl = this.createApiUrl(specificQuery, specificOrientation);
 				cachedResponse = await fetch(apiUrl, {
 					headers: { "Cache-Control": this.cacheControlHeader }
 				});
-				await cache.put(cacheKey, cachedResponse.clone());
+				await cache.put(elementCacheKey, cachedResponse.clone());
+				console.log('New image fetched and cached with key:', elementCacheKey);
 			} else {
-				console.log('Using cached data for key:', cacheKey); // Log when using cached data
+				console.log('Cached data found for key:', elementCacheKey, '. Using cached image.');
 			}
 
+			// Apply the image.
 			this.applyImagesFromCache(cachedResponse, [element]);
 		}
 	}
@@ -107,9 +130,14 @@ export class RandomImageUtil {
 	 * @returns {void}
 	 */
 	applyImagesFromCache(cachedResponse, elements) {
-		cachedResponse.json().then(images => this.distributeImages(elements, images))
-			.catch(error => console.error('Error applying images from cache:', error));
+		cachedResponse.json().then(images => {
+			this.distributeImages(elements, images);
+		}).catch(error => {
+			console.error('Error applying images from cache. Details:', error);
+			console.error('Response that caused error:', cachedResponse);
+		});
 	}
+
 
 	/**
 	 * Fetch the images and apply them
@@ -143,11 +171,19 @@ export class RandomImageUtil {
 	 * @returns {void}
 	 */
 	distributeImages(elements, images) {
-		// console.log('Distributing images:', images);
+		if (!Array.isArray(images) || images.length === 0) {
+			console.error('No images available to distribute', images);
+			return;
+		}
+
 		elements.forEach((element, index) => {
-			const imageData = images[index % images.length];
-			this.updateImage(element, imageData);
-			// console.log('Distributing image:', images[index % images.length]);
+			try {
+				const imageData = images[index % images.length];
+				this.updateImage(element, imageData);
+				console.log(`Image distributed to element ${index}:`, imageData);
+			} catch (error) {
+				console.error(`Error distributing image to element ${index}:`, error);
+			}
 		});
 	}
 
@@ -215,7 +251,6 @@ export class RandomImageUtil {
  * 
  * @returns {String} The cache key.
  */
-
 function generateCacheKey(query, orientation, uniqueId) {
 	return `randomutil-cache-${query}-${orientation}-${uniqueId}`;
 }
