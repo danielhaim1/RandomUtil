@@ -1,4 +1,4 @@
-import palette from "../sets/palette.0.json";
+import palette from "../sets/palette.json";
 
 /**
  * @name RandomAvatar
