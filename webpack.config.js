@@ -55,7 +55,7 @@ module.exports = [{
         path: path.resolve(__dirname, "dist"),
         libraryTarget: "commonjs2"
     },
-    // devtool: 'source-map',
+    devtool: 'source-map',
     optimization: {
         minimize: true,
         minimizer: [new TerserPlugin()]

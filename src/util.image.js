@@ -57,55 +57,52 @@ export class RandomImageUtil {
 	 * 
 	 * @returns {void}
 	 */
-
 	async init() {
-		console.log('init function called');
+	    if (!this.isInitialized) return;
 
-		if (!this.isInitialized) return;
-
-		// Check if the browser supports the Cache API.
-		const cache = await caches.open("randomutil-cache");
-
-		for (const element of this.elements) {
-			// Check if the element has a data-element-id attribute. If not, create one.
-			let elementId = element.getAttribute('data-element-id');
-			if (!elementId) {
-				// If the element doesn't have a data-element-id attribute, create one.
-				elementId = `element-${globalElementCounter++}`;
-				// Add the data-element-id attribute to the element.
-				element.setAttribute('data-element-id', elementId);
-			}
-
-			// Check if the element has a data-random-img attribute. If not, use the default query.
-			const specificQuery = element.getAttribute('data-random-img') || this.query;
-
-			// Check if the element has a data-random-orientation attribute. If not, use the default orientation.
-			const specificOrientation = element.getAttribute('data-random-orientation') || this.orientation;
-
-			// Generate the cache key.
-			const elementCacheKey = generateCacheKey(specificQuery, specificOrientation, elementId);
-
-			// Check if the cache contains the image.
-			let cachedResponse = await cache.match(elementCacheKey);
-			console.log('Checking cache for key:', elementCacheKey);
-
-			if (!cachedResponse) {
-				console.log('No cached data found. Fetching new image for query:', specificQuery);
-
-				// Fetch the image.
-				const apiUrl = this.createApiUrl(specificQuery, specificOrientation);
-				cachedResponse = await fetch(apiUrl, {
-					headers: { "Cache-Control": this.cacheControlHeader }
-				});
-				await cache.put(elementCacheKey, cachedResponse.clone());
-				console.log('New image fetched and cached with key:', elementCacheKey);
-			} else {
-				console.log('Cached data found for key:', elementCacheKey, '. Using cached image.');
-			}
-
-			// Apply the image.
-			this.applyImagesFromCache(cachedResponse, [element]);
+		if (window.location.protocol === 'file:') {
+		    console.error("Cannot use Cache API with 'file://' protocol. Please run on a server.");
+		    return;
 		}
+
+	    const cache = await caches.open("randomutil-cache");
+
+	    for (const element of this.elements) {
+	        let elementId = element.getAttribute('data-element-id');
+	        if (!elementId) {
+	            elementId = `element-${globalElementCounter++}`;
+	            element.setAttribute('data-element-id', elementId);
+	        }
+
+	        const specificQuery = element.getAttribute('data-random-img') || this.query;
+	        const specificOrientation = element.getAttribute('data-random-orientation') || this.orientation;
+
+        const elementCacheKey = generateCacheKey(specificQuery, specificOrientation, elementId);
+
+        let cachedResponse = await cache.match(elementCacheKey);
+
+        if (!cachedResponse) {
+            const apiUrl = this.createApiUrl(specificQuery, specificOrientation);
+
+            if (!/^https?:/.test(apiUrl)) {
+                console.error("API URL must be an HTTP or HTTPS URL");
+                continue; // Skip caching for this URL
+            }
+            try {
+                cachedResponse = await fetch(apiUrl, {
+                    headers: { "Cache-Control": this.cacheControlHeader }
+                });
+                await cache.put(elementCacheKey, cachedResponse.clone());
+            } catch (error) {
+                console.error('Error fetching or caching data:', error);
+            }
+
+	        } else {
+	            console.log('Cached data found for key:', elementCacheKey, '. Using cached image.');
+	        }
+
+	        this.applyImagesFromCache(cachedResponse, [element]);
+	    }
 	}
 
 	/**
@@ -147,20 +144,24 @@ export class RandomImageUtil {
 	 * 
 	 * @returns {void}
 	 */
-	async fetchAndApplyImages(cache, elements, cacheKey) {
-		try {
-			const response = await fetch(cacheKey, {
-				headers: {
-					"Cache-Control": this.cacheControlHeader
-				}
-			});
-			cache.put(new Request(cacheKey), response.clone());
-			const images = await response.json();
-			this.distributeImages(elements, images);
-		} catch (error) {
-			console.error('Error fetching images:', error);
-		}
-	}
+async fetchAndApplyImages(cache, elements, cacheKey) {
+    try {
+        if (!/^https?:/.test(cacheKey)) {
+            throw new Error("cacheKey must be an HTTP or HTTPS URL");
+        }
+        const response = await fetch(cacheKey, {
+            headers: {
+                "Cache-Control": this.cacheControlHeader
+            }
+        });
+        cache.put(new Request(cacheKey), response.clone());
+        const images = await response.json();
+        this.distributeImages(elements, images);
+    } catch (error) {
+        console.error('Error fetching images:', error);
+    }
+}
+
 
 	/**
 	 * Distribute the images to the elements.
@@ -180,7 +181,7 @@ export class RandomImageUtil {
 			try {
 				const imageData = images[index % images.length];
 				this.updateImage(element, imageData);
-				console.log(`Image distributed to element ${index}:`, imageData);
+				// console.log(`Image distributed to element ${index}:`, imageData);
 			} catch (error) {
 				console.error(`Error distributing image to element ${index}:`, error);
 			}
