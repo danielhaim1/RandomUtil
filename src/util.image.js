@@ -98,7 +98,7 @@ export class RandomImageUtil {
             }
 
 	        } else {
-	            console.log('Cached data found for key:', elementCacheKey, '. Using cached image.');
+	            // console.log('Cached data found for key:', elementCacheKey, '. Using cached image.');
 	        }
 
 	        this.applyImagesFromCache(cachedResponse, [element]);
