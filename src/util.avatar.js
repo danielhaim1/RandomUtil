@@ -45,10 +45,10 @@ export class RandomAvatar {
 		const pixelColors = RandomAvatarUtils.AvatarVariantPixelColorArray(this.colors);
 
 		switch (this.variant) {
-			case "abstract":
-				return this.variantGenerator.AvatarVariantAbstract();
 			case "pixel":
 				return this.variantGenerator.AvatarVariantPixel(pixelColors);
+			case "abstract":
+				return this.variantGenerator.AvatarVariantAbstract();
 			case "smile":
 				return this.variantGenerator.AvatarVariantSmile(this.smileProps);
 			default:

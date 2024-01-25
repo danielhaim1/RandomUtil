@@ -27,7 +27,6 @@ export class RandomUtilController {
 
     updateElements(elements, values, formatter = (v) => v) {
         if (!elements || elements.length === 0) {
-            // console.warn("No elements found for the selector");
             return;
         }
         elements.forEach((el, index) => {
@@ -35,26 +34,18 @@ export class RandomUtilController {
         });
     }
 
-
-    randomTag(tags) {
-        if (!this.tagElements || this.tagElements.length === 0) {
-            // console.warn("No tag elements found.");
-            return;
-        }
-        this.updateElements(this.tagElements, tags);
-    }
-
     randomTitle(titles) {
         if (!this.titleElements || this.titleElements.length === 0) {
-            // console.warn("No title elements found.");
             return;
         }
         this.updateElements(this.titleElements, titles);
     }
 
-    randomReadTime() {
-        const formatter = () => `${Math.floor(Math.random() * 11) + 2} min read`;
-        this.updateElements(this.readTimeEls, Array(this.readTimeEls.length).fill(), formatter);
+    randomTag(tags) {
+        if (!this.tagElements || this.tagElements.length === 0) {
+            return;
+        }
+        this.updateElements(this.tagElements, tags);
     }
 
     randomExcerpt(excerpts) {
@@ -67,7 +58,6 @@ export class RandomUtilController {
         if (this.dateElements && this.dateElements.length > 0) {
             this.dateManager.randomDate(format, this.dateElements);
         } else {
-            // console.warn("No general date elements found.");
         }
 
         if (this.dateSpecificElements && this.dateSpecificElements.length > 0) {
@@ -76,13 +66,16 @@ export class RandomUtilController {
                 this.dateManager.randomDate(specificFormat, [el]);
             });
         } else {
-            // console.warn("No specific date format elements found.");
         }
+    }
+
+    randomReadTime(text = 'min') {
+        const readTime = `${Math.floor(Math.random() * 11) + 2} ${text}`;
+        this.updateElements(this.readTimeEls, new Array(this.readTimeEls.length).fill(readTime));
     }
 
     randomImages({ count = null, query = null, orientation = null, accessKey = null }) {
         if (!this.imageElements || this.imageElements.length === 0) {
-            // console.warn("No image elements found.");
             return;
         }
         this.imageElements.forEach((element, index) => {
@@ -93,17 +86,13 @@ export class RandomUtilController {
         });
     }
     
-
     randomAvatar({ avatarOptions = {} }) {
         this.avatarElements.forEach(element => {
             const specificVariant = element.getAttribute('data-random-avatar');
             const options = specificVariant ? { ...avatarOptions, variant: specificVariant } : avatarOptions;
-
             const avatarManager = new RandomAvatar(options);
             element.innerHTML = '';
             element.appendChild(avatarManager.generateAvatar());
         });
     }
-
 }
-

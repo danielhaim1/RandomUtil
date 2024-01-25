@@ -23,7 +23,7 @@ module.exports = [{
     target: "web",
     entry: "./index.js",
     output: {
-        filename: "RandomUtil.amd.js",
+        filename: "randomutil.amd.js",
         path: path.resolve(__dirname, "dist")
     },
     optimization: {
@@ -51,7 +51,7 @@ module.exports = [{
     },
     plugins: [
         new webpack.DefinePlugin({
-            'process.env.UNSPLASH_API_KEY': JSON.stringify(process.env.UNSPLASH_API_KEY)
+            'process.env.UNSPLASH_ACCESS_KEY': JSON.stringify(process.env.UNSPLASH_ACCESS_KEY)
         }),
         new webpack.ProvidePlugin({
             process: 'process/browser'
@@ -66,7 +66,7 @@ module.exports = [{
     target: "node",
     entry: "./index.js",
     output: {
-        filename: "RandomUtil.js",
+        filename: "randomutil.module.js",
         path: path.resolve(__dirname, "dist"),
         libraryTarget: "commonjs2"
     },

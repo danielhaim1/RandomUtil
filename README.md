@@ -1,4 +1,5 @@
-# RandomUtil API
+RandomUtil
+================
 
 [![npm version](https://img.shields.io/npm/v/@danielhaim/randomutil)](https://www.npmjs.com/package/@danielhaim/randomutil)
 [![Downloads](https://img.shields.io/npm/dt/@danielhaim/randomutil.svg)](https://www.npmjs.com/package/@danielhaim/randomutil)
@@ -7,56 +8,139 @@
 Overview
 --------
 
-<a target="_blank" href="https://codepen.io/danielhaim/pen/BabKOBK/ef5e3e519c58b082797b3fc6b1b744c0">
-    <img src="https://raw.githubusercontent.com/danielhaim1/randomutil/main/demo/demo.png" width="100%" height="auto" alt="RandomUtil">
-</a>
+The `RandomUtil` module, accessible as an NPM package in both `amd` and `commonjs` configurations, expedites the prototyping of web interfaces. It adeptly fills `DOM` elements with a variety of random content. The module's versatility extends to numerous data types, encompassing text (encompassing titles, tags, and excerpts), images, tailored dates, and SVG-crafted avatars.
 
-# RandomUtil API Documentation  
+[CodePen Demo](https://codepen.io/danielhaim/pen/BabKOBK/ef5e3e519c58b082797b3fc6b1b744c0)
 
-`RandomUtil` is an NPM package for easily populating `DOM` elements with random data, perfect for testing and prototyping web interfaces. It supports various data types including text, images, and dates.  
+API Documentation
+--------------------
 
-## Getting Started  
+To initiate, install `RandomUtil` using NPM:
 
-To get started, you can install `RandomUtil` via NPM:  
-
-```shell 
+```shell
 npm i @danielhaim/randomutil
 ```
 
-## Usage
+### Module Example ###
 
-### RandomContentManager
-Initialize a RandomContentManager instance by providing the category ID to select the corresponding data arrays:
+```js
+import RandomUtil from "@danielhaim/randomutil";
+
+const randomContentManager = new RandomContentManager(1); // ['1', '2', '3']
+const randomUtilController = new RandomUtil.Controller();
+
+// Content Generation
+randomUtilController.generateTag(randomContentManager.tags);
+randomUtilController.generateTitle(randomContentManager.titles);
+randomUtilController.generateExcerpt(randomContentManager.excerpts);
+
+// Date Generation
+randomUtilController.generateDate("YYYY/MM/DD");
+
+const UNSPLASH_ACCESS_KEY = "YOUR_UNSPLASH_ACCESS_KEY"; 
+// Register API: [Unsplash API](https://unsplash.com/documentation#getting-started)
+// Alternatively, you can use the `.env` file.
+
+const imageCount = document.querySelectorAll("[data-random='img']").length;
+
+// Image Generation
+randomUtilController.generateImages({
+  count: imageCount,
+  query: "nature",
+  orientation: "portrait",
+  accessKey: UNSPLASH_ACCESS_KEY
+});
+
+// Avatar Generation
+randomUtilController.generateAvatar({ 
+  options: { 
+    variant: "default" // Options: ['pixel', 'abstract', 'smile']
+  } 
+});
+```
+
+### Browser Example ###
+
+```html
+<script src="./path/to/dist/randomutil.amd.js"></script>
+<script>
+  // Additional JavaScript here
+</script>
+```
+
+### `RandomContentManager()` ###
+
+1. The `RandomContentManager()` manages content distribution from a set of five arrays, while `RandomUtil.Controller()` handles the distribution of this content. Each array focuses on distinct themes
+    1. `Array 1`: Wildlife preservation and conservation content.
+    2. `Array 2`: Global explorations and adventures.
+    3. `Array 3`: Technology and innovation topics.
+    4. `Array 4`: Fashion and beauty-related content.
+    5. `Array 5`: Creative and advertising materials.
+
+```js
+// Initialize a RandomContentManager for Array 3 (Technology and Innovation)
+const randomContent = new RandomContentManager(3);
+
+// Initialize RandomUtil.Controller for content distribution
+const randomController = new RandomUtil.Controller();
+
+// Generate and populate elements with content:
+randomController.generateTag(randomContentManager.tags); // For `[data-random="tag"]` elements
+randomController.generateTitle(randomContentManager.titles); // For `[data-random="title"]` elements
+randomController.generateExcerpt(randomContentManager.excerpts); // For `[data-random="excerpt"]` elements
+```
+
+### `RandomUtil.Controller()` ###
   
+The `RandomUtil.Controller()` is in charge of content distribution and offers several methods to target specific `DOM` elements:
+
+| Method                              | Target Element                  | Output                                      |
+|-------------------------------------|---------------------------------|---------------------------------------------|
+| `randomTitles(titles)`              | `[data-random="title"]`         | Randomly selects and populates title elements. |
+| `randomTags(tags)`                  | `[data-random="tag"]`           | Assigns random tags to elements.             |
+| `randomExcerpts(excerpts)`          | `[data-random="excerpt"]`       | Fills elements with random excerpts.         |
+| `randomReadTime(text = 'min read')` | `[data-random="read-time"]`     | Generates read time content (e.g., "8 min read"). |
+| `randomDate(format)`                | `[data-random="date"]`          | Provides random dates in the specified format (default: `M j, Y`, e.g., Dec 21, 2019). |
+| `randomDate`                        | `[data-random-date="l, F jS, Y"]` | Custom date format support (e.g., "Saturday, December 21st, 2019"). |
+| `randomImages({ count, query, orientation, accessKey })` | `[data-random="img"]` | Fetches random images (requires Unsplash API Key). |
+| `randomImages({})`                 | `[data-random-img="person, face"]` | Advanced image querying for specific elements. |
+| `randomAvatar({ avatarOptions })`   | `[data-random="avatar"]`        | Provides random avatars with options like 'pixel', 'smile', or 'abstract'. |
+| `randomAvatar({ avatarOptions })`   | `[data-random-avatar="pixel"]`  | More advanced avatar customization.          |
+
 ```js
+// Initialize a RandomContentManager for Array 1 (Wildlife preservation and conservation content)
 const randomContent = new RandomContentManager(1);
+
+// Initialize RandomUtil.Controller for content distribution
+const randomController = new RandomUtil.Controller();
+randomController.randomTag(randomContent.randomTags); // For `[data-random="tag"]` elements
+randomController.randomTitle(randomContent.randomTitles); // For `[data-random="title"]` elements
+randomController.randomExcerpt(randomContent.randomExcerpts); // For `[data-random="excerpt"]` elements
+randomController.randomReadTime(); // For `[data-random="time"]` elements
+
+randomController.randomDate("Y/m/d"); // For `[data-random="date"]` or `[data-random-date]` elements
+
+// For `[data-random="img"]` and `[data-random-img]` elements
+const randomImageCount = document.querySelectorAll("[data-random='img']").length;
+randomController.randomImages({ 
+    count: randomImageCount, // for caching the API
+    query: "nature",
+    orientation: "portrait",
+    accessKey: UNSPLASH_ACCESS_KEY 
+});
+
+// For `[data-random="avatar"]` and `[data-random-avatar]` elements
+randomController.randomAvatar({ 
+    avatarOptions: { 
+      colors: ["#FF5733", "#33FF57", "#5733FF"], // Optional color set
+      variant: "default"
+    }
+});
 ```
 
-### RandomController
+### `randomDate()` ###
 
-Initialize a RandomController instance:
-
-```js
-const randomController = new RandomUtilController({});
-```
-
-### RandomTag, RandomTitle, RandomExcerpt
-Generate random tags, titles, and excerpts using the RandomController:
-
-```js
-randomController.randomTag(randomContent.randomTags);
-randomController.randomTitle(randomContent.randomTitles);
-randomController.randomExcerpt(randomContent.randomExcerpts);
-```
-
-### randomReadTime
-Generate a random read time:
-
-```js
-randomController.randomReadTime();
-```
-
-### randomDate
+The `randomDate()` method is designed to populate elements with `[data-random="date"]` and `[data-random-date=""]` attributes. Utilizing the `[data-random-date]` attribute, you gain access to more specific date formats, such as `l, F jS, Y`, which results in a formatted date like "Saturday, December 21st, 2019." This flexibility allows you to tailor the date presentation to your specific needs.
 
 | **Category** | **Format** | **Description** | **Example** |
 |---|---|---|---|
@@ -92,110 +176,83 @@ randomController.randomReadTime();
 | M jS, Y | Custom | Dec 21st, 2019 | Dec 21st, 2019 |
 | l, F jS, Y | Custom | Saturday, December 21st, 2019 | Saturday, December 21st, 2019 |
 
-### randomImages
-
-The `randomImage` method allows you to fetch and display a set of random images from Unsplash, based on specified parameters.
-
-### Prerequisites
-Register for an Unsplash API key at [Unsplash Applications](https://unsplash.com/oauth/applications)
-
-### Usage
-
-First, import the `RandomImageUtil` class from your package. Then, initialize it with your Unsplash API key and desired parameters.
-
-
-```
-const randomImage = new RandomImageUtil(count, query, orientation, accessKey);
+```js
+// Initialize RandomUtil.Controller for content distribution
+const randomController = new RandomUtil.Controller();
+randomController.randomDate("Y/m/d");
 ```
 
-- `count` (Optional): Number of images to fetch. Default is 12.
-- `query` (Optional): The category of images. Default is "nature".
-- `orientation` (Optional): The orientation of the images. Default is "landscape".
-- `accessKey` (Optional): Your Unsplash API key. If not provided, it will default to process.env.UNSPLASH_API_KEY.
+```html
+<!-- Input -->
+<span data-random="date"></span>
+<span data-random-date="M jS, Y"></span>
+
+<!-- Output -->
+<span>2019/01/21</span>
+<span>Dec 21st, 2019</span>
+```
+
+### `randomImages()` ###
+
+This method allows you to fetch images from the Unsplash API. To get started, you can register an Unsplash Application and grab your access key [here](https://unsplash.com/oauth/applications).
+
+1. The `randomImages({ count, query, orientation, accessKey })` constructor:
+  1. `count` (Optional): Number of images to fetch. Default is 12.
+  2. `query` (Optional): The category of images. Default is "nature".
+  3. `orientation` (Optional): The orientation of the images. Default is "landscape".
+  4. `accessKey` (Optional): Your Unsplash API key. If not provided, it will default to process.env.UNSPLASH_ACCESS_KEY.
 
 ```js
 const UNSPLASH_ACCESS_KEY = 'your-api-key';
-const randomImage = new RandomImageUtil(10, "nature", "landscape", UNSPLASH_ACCESS_KEY);
-```
 
-This initializes the `RandomImageUtil` with the capability to fetch 10 nature-themed landscape images using the provided Unsplash API key.
+const randomController = new RandomUtil.Controller();
+const randomImageCount = document.querySelectorAll("[data-random='img']").length;
 
-**Target HTML Attribute:** The method targets elements with the `[data-random='img']` attribute. Depending on the element's tag (`img` for image tags or a `div` for background images), it sets the source or background style respectively.
-
-### Error Handling
-
-The class includes robust error handling to manage potential issues such as missing access keys, network errors, or unsuccessful API calls. Errors are logged to the console for debugging purposes. It's recommended to extend this for user-friendly error messages or alternative content display in a production environment.
-
-### randomAvatar
-
-The `randomAvatar` method allows you to create and display random avatars with various customization options. This method is part of the RandomUtil utility for adding dynamic content to your web application.
-
-### Usage Example
-
-```javascript
-const randomUtil = new RandomUtil();
-randomUtil.randomAvatar({
-  avatarOptions: {
-    variant: "smile",
-    colors: ["#FF5733", "#33FF57", "#5733FF"],
-    square: true,
-    size: 128,
-  },
+randomController.randomImages({ 
+    count: randomImageCount, // for caching the API
+    query: "nature",
+    orientation: "portrait",
+    accessKey: UNSPLASH_ACCESS_KEY 
 });
 ```
 
+```html
+<img data-random="img" />
+<img data-random="img" data-random-img="person, face" />
+<img data-random="img" data-random-img="school bus" />
+```
+
+### `randomAvatar({})` ###
+
+The `randomAvatar` method offers the functionality to create diverse and customizable avatars. This implementation draws inspiration from a modified version of [Boring Avatars](https://github.com/boringdesigners/boring-avatars) in vanilla JavaScript.
+
 ```js
-const randomUtil = new RandomUtil();
-randomUtil.randomAvatar({ avatarOptions: { variant: "smile" } });
+const randomController = new RandomUtil.Controller();
+
+randomController.randomAvatar({ 
+    avatarOptions: { 
+      colors: ["#FF5733", "#33FF57", "#5733FF"],
+      variant: "default" // ["smile", "pixel", "abstract"]
+    }
+});
 ```
 
-```js
-const randomUtil = new RandomUtil();
-randomUtil.randomAvatar({ avatarOptions: { variant: "pixel" } });
-```
+License
+-------
 
-```js
-const randomUtil = new RandomUtil();
-randomUtil.randomAvatar({ avatarOptions: { variant: "abstract" } });
-```
+This software is released under the [MIT License](LICENSE)
 
-randomTopic Method
-------------------
+Report Issues or Request a Feature
+----------------------------------
 
-- **Method Signature:** `randomTopic(topics)`
-- **Description:** This method selects random topics from the provided array and populates elements with the `[data-random="topic"]` attribute.
-- **Usage:** `randomUtil.randomTopic(randomData.randomTopics);`
-- **Parameters:** `topics`: *Array&lt;String&gt;* - An array of string topics from which a random topic will be chosen.
-- **Target HTML Attribute:** This method targets elements with the `[data-random="topic"]` attribute and updates their content.
+If you encounter any issues or have suggestions for improvements, please feel free to report them. Your feedback is invaluable in enhancing this software.
 
-randomTitle Method
-------------------
+Folder Structure
+----------------
 
-- **Method Signature:** `randomTitle(titles)`
-- **Description:** This method selects a random title from the provided array and populates elements with the `[data-random="title"]` attribute.
-- **Usage:** `randomUtil.randomTitle(randomData.randomTitles);`
-- **Parameters:** `titles`: *Array&lt;String&gt;* - An array of string titles from which a random title will be chosen.
-- **Target HTML Attribute:** This method targets elements with the `[data-random="title"]` attribute and updates their content.
+Here's an overview of the project's folder structure:
 
-randomReadTime Method
----------------------
-
-- **Method Signature:** `randomReadTime()`
-- **Description:** This method generates a random read time between 2 and 12 minutes and populates elements with the `[data-random="time"]` attribute.
-- **Usage:** `randomUtil.randomReadTime();`
-- **Target HTML Attribute:** This method targets elements with the `[data-random="time"]` attribute and updates their content.
-
-randomExcerpt Method
---------------------
-
-- **Method Signature:** `randomExcerpt(excerpts)`
-- **Description:** This method selects a random excerpt from the provided array and populates elements with the `[data-random="excerpt"]` attribute.
-- **Usage:** `randomUtil.randomExcerpt(randomData.randomExcerpts);`
-- **Parameters:** `excerpts`: *Array&lt;String&gt;* - An array of string excerpts from which a random excerpt will be chosen.
-- **Target HTML Attribute:** This method targets elements with the `[data-random="excerpt"]` attribute and updates their content.
-
-## Folder Structure
-```
+```bash
 ├── .env
 ├── .gitattributes
 ├── .gitignore
@@ -203,31 +260,21 @@ randomExcerpt Method
 ├── LICENSE
 ├── README.md
 ├── __test__
-│   └── RandomUtil.amd.test.js
+│   └── randomutil.amd.test.js
 ├── babel.config.js
 ├── dist
-│   ├── RandomUtil.amd.js
-│   ├── RandomUtil.js
-│   └── RandomUtil.js.map
-├── demo
-│   ├── demo.css
-│   ├── demo.js
-│   ├── demo.png
-│   └── index.html
+│   ├── randomutil.amd.js
+│   └── randomutil.module.js
 ├── index.js
 ├── jest.config.js
 ├── package.json
 ├── sets
-│   ├── palette.0.json
-│   ├── palette.1.json
-│   ├── palette.2.json
-│   ├── palette.3.json
-│   └── palette.4.json
+│   └── palette.json
 ├── src
-│   ├── index.js
-│   ├── util.avatar.js
-│   ├── util.content.js
-│   ├── util.date.js
-│   └── util.image.js
+│   ├── index.js
+│   ├── util.avatar.js
+│   ├── util.content.js
+│   ├── util.date.js
+│   └── util.image.js
 └── webpack.config.js
 ```

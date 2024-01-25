@@ -22,7 +22,7 @@ export class RandomImageUtil {
         this.count = count;
         this.query = query;
         this.orientation = orientation;
-        this.accessKey = accessKey || process.env.UNSPLASH_API_KEY;
+        this.accessKey = accessKey || process.env.UNSPLASH_ACCESS_KEY;
         this.uniqueId = uniqueId || Math.random().toString(36).substring(7);
 
         if (!this.accessKey) {

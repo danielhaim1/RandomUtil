@@ -22,8 +22,7 @@
   "main": "index.js",
   "files": [
     "/dist",
-    "/examples",
-    "sets",
+    "/sets",
     "/src",
     "LICENSE",
     "README.md"
@@ -33,7 +32,7 @@
     "release": "npm version patch && npm run build && git add -A && git commit -m 'Release: v$(node -p \"require('./package.json').version\")' && git push && npm publish",
     "watch": "nodemon --watch src/**/*.js --exec npm run build",
     "test": "jest",
-    "tree": "tree -a -I 'node_modules|.git'"
+    "tree": "tree -a -I 'node_modules|.git|.DS_Store'"
   },
   "devDependencies": {
     "@babel/cli": "^7.21.5",

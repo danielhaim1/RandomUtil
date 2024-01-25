@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import RandomUtil from "../dist/RandomUtil.amd.js";
+import RandomUtil from "../dist/randomutil.amd.js";
 import { RandomContent } from "../src/util.content.js";
 
 // Setting up the HTML structure for testing
@@ -28,7 +28,7 @@ test('RandomUtil updates DOM elements with random content', () => {
   randomController.randomDate("Y/m/d");
 
   // const randomImageCount = document.querySelectorAll("[data-random='img']").length;
-  // randomController.randomImages({ count: randomImageCount, query: "nature", orientation: "portrait", accessKey: UNSPLASH_API_KEY });
+  // randomController.randomImages({ count: randomImageCount, query: "nature", orientation: "portrait", accessKey: UNSPLASH_ACCESS_KEY });
 
-  randomController.randomAvatar({ avatarOptions: { variant: "defaultVariant" } });
+  randomController.randomAvatar({ avatarOptions: { variant: "default" } });
 });

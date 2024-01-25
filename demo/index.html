@@ -3,7 +3,7 @@
 
 <head>
     <title>Random Content Generator</title>
-    <script src="../dist/RandomUtil.amd.js"></script>
+    <script src="../dist/randomutil.amd.js"></script>
     <link rel="stylesheet" href="demo.css">
 </head>
 
@@ -72,7 +72,7 @@
                     <pre><code class="language-javascript">npm install @danielhaim/randomutil</code></pre>
 
                     <h3>Usage</h3>
-                    <pre><code>const UNSPLASH_API_KEY = '[your-unsplash-api]';</code></pre>
+                    <pre><code>const UNSPLASH_ACCESS_KEY = '[your-unsplash-api]';</code></pre>
 
                     <h3>RandomContentManager</h3>
                     <ul>
@@ -96,10 +96,10 @@
 
                     <h3>RandomImages</h3>
                     <pre><code>const randomImageCount = document.querySelectorAll("[data-random='img']").length;</code>
-    <code>randomController.randomImages({ count: randomImageCount, query: "nature", orientation: "portrait", accessKey: UNSPLASH_API_KEY });</code></pre>
+    <code>randomController.randomImages({ count: randomImageCount, query: "nature", orientation: "portrait", accessKey: UNSPLASH_ACCESS_KEY });</code></pre>
 
                     <h3>RandomAvatar</h3>
-                    <pre><code>randomController.randomAvatar({ avatarOptions: { variant: "defaultVariant" } });</code></pre>
+                    <pre><code>randomController.randomAvatar({ avatarOptions: { variant: "default" } });</code></pre>
                 </div>
             </div>
         </div>
@@ -654,7 +654,7 @@
         </div>
     </div>
     <script>
-        const UNSPLASH_API_KEY = 'ea98eS9i44JjTJiC6XmvRRHDBITzIM9aB8cxXntcPvY';
+        const UNSPLASH_ACCESS_KEY = 'ea98eS9i44JjTJiC6XmvRRHDBITzIM9aB8cxXntcPvY';
         const randomContent = new RandomContentManager(1);
         const randomController = new RandomUtilController({});
 
@@ -666,8 +666,8 @@
         randomController.randomDate("Y/m/d");
 
         const randomImageCount = document.querySelectorAll("[data-random='img']").length;
-        randomController.randomImages({ count: randomImageCount, query: "nature", orientation: "portrait", accessKey: UNSPLASH_API_KEY });
-        randomController.randomAvatar({ avatarOptions: { variant: "defaultVariant" } });
+        randomController.randomImages({ count: randomImageCount, query: "nature", orientation: "portrait", accessKey: UNSPLASH_ACCESS_KEY });
+        randomController.randomAvatar({ avatarOptions: { variant: "default" } });
     </script>
 
     <script src="demo.js"></script>
