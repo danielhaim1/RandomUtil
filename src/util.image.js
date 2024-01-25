@@ -61,7 +61,7 @@ export class RandomImageUtil {
         if (!this.isInitialized) return;
 
         if (window.location.protocol === 'file:') {
-            console.error("Cannot use Cache API with 'file://' protocol. Please run on a server.");
+            // console.error("Cannot use Cache API with 'file://' protocol. Please run on a server.");
             return;
         }
 

@@ -26,16 +26,17 @@ npm i @danielhaim/randomutil
 ```js
 import RandomUtil from "@danielhaim/randomutil";
 
-const randomContentManager = new RandomContentManager(1); // ['1', '2', '3']
-const randomUtilController = new RandomUtil.Controller();
+const randomContentManager = new RandomUtil.RandomContentManager(1);
+const randomUtilController = new RandomUtil.RandomUtilController();
 
 // Content Generation
-randomUtilController.generateTag(randomContentManager.tags);
-randomUtilController.generateTitle(randomContentManager.titles);
-randomUtilController.generateExcerpt(randomContentManager.excerpts);
+randomController.randomTag(randomContent.randomTags);
+randomController.randomTitle(randomContent.randomTitles);
+randomController.randomExcerpt(randomContent.randomExcerpts);
 
-// Date Generation
-randomUtilController.generateDate("YYYY/MM/DD");
+// Date & Time Generation
+randomController.randomReadTime();
+randomController.randomDate("Y/m/d");
 
 const UNSPLASH_ACCESS_KEY = "YOUR_UNSPLASH_ACCESS_KEY"; 
 // Register API: [Unsplash API](https://unsplash.com/documentation#getting-started)
@@ -44,7 +45,7 @@ const UNSPLASH_ACCESS_KEY = "YOUR_UNSPLASH_ACCESS_KEY";
 const imageCount = document.querySelectorAll("[data-random='img']").length;
 
 // Image Generation
-randomUtilController.generateImages({
+randomUtilController.randomImages({
   count: imageCount,
   query: "nature",
   orientation: "portrait",
@@ -52,7 +53,7 @@ randomUtilController.generateImages({
 });
 
 // Avatar Generation
-randomUtilController.generateAvatar({ 
+randomUtilController.randomAvatar({ 
   options: { 
     variant: "default" // Options: ['pixel', 'abstract', 'smile']
   } 
@@ -64,7 +65,9 @@ randomUtilController.generateAvatar({
 ```html
 <script src="./path/to/dist/randomutil.amd.js"></script>
 <script>
-  // Additional JavaScript here
+  const randomContent = new window.RandomUtil.RandomContentManager(1);
+  const randomController = new window.RandomUtil.RandomUtilController();
+  // ...
 </script>
 ```
 

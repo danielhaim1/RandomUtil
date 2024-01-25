@@ -17,8 +17,8 @@ document.body.innerHTML = `
 `;
 
 test('RandomUtil updates DOM elements with random content', () => {
-  const randomContent = new RandomContentManager(1);
-  const randomController = new RandomUtilController({});
+  const randomContent = new window.RandomUtil.RandomContentManager(1);
+  const randomController = new window.RandomUtil.RandomUtilController();
 
   randomController.randomTag(randomContent.randomTags);
   randomController.randomTitle(randomContent.randomTitles);
@@ -26,9 +26,6 @@ test('RandomUtil updates DOM elements with random content', () => {
 
   randomController.randomReadTime();
   randomController.randomDate("Y/m/d");
-
-  // const randomImageCount = document.querySelectorAll("[data-random='img']").length;
-  // randomController.randomImages({ count: randomImageCount, query: "nature", orientation: "portrait", accessKey: UNSPLASH_ACCESS_KEY });
 
   randomController.randomAvatar({ avatarOptions: { variant: "default" } });
 });

@@ -655,8 +655,9 @@
     </div>
     <script>
         const UNSPLASH_ACCESS_KEY = 'ea98eS9i44JjTJiC6XmvRRHDBITzIM9aB8cxXntcPvY';
-        const randomContent = new RandomContentManager(1);
-        const randomController = new RandomUtilController({});
+
+        const randomContent = new window.RandomUtil.RandomContentManager(1);
+        const randomController = new window.RandomUtil.RandomUtilController();
 
         randomController.randomTag(randomContent.randomTags);
         randomController.randomTitle(randomContent.randomTitles);
