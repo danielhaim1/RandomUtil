@@ -65,9 +65,9 @@ randomUtilController.randomAvatar({
 ```html
 <script src="./path/to/dist/randomutil.amd.js"></script>
 <script>
-  const randomContent = new window.RandomUtil.RandomContentManager(1);
-  const randomController = new window.RandomUtil.RandomUtilController();
-  // ...
+const randomContent = new window.RandomUtil.RandomContentManager(1);
+const randomController = new window.RandomUtil.RandomUtilController();
+// ...
 </script>
 ```
 
