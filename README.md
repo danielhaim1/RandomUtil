@@ -105,6 +105,7 @@ The `RandomUtil.Controller()` is in charge of content distribution and offers se
 | `randomReadTime(text = 'min read')` | `[data-random="read-time"]`     | Generates read time content (e.g., "8 min read"). |
 | `randomDate(format)`                | `[data-random="date"]`          | Provides random dates in the specified format (default: `M j, Y`, e.g., Dec 21, 2019). |
 | `randomDate`                        | `[data-random-date="l, F jS, Y"]` | Custom date format support (e.g., "Saturday, December 21st, 2019"). |
+| `randomColors({ options })`          | `[data-random="color"]`       | Adds custom CSS variables with hex, rgb.         |
 | `randomImages({ count, query, orientation, accessKey })` | `[data-random="img"]` | Fetches random images (requires Unsplash API Key). |
 | `randomImages({})`                 | `[data-random-img="person, face"]` | Advanced image querying for specific elements. |
 | `randomAvatar({ avatarOptions })`   | `[data-random="avatar"]`        | Provides random avatars with options like 'pixel', 'smile', or 'abstract'. |
@@ -138,6 +139,37 @@ randomController.randomAvatar({
       colors: ["#FF5733", "#33FF57", "#5733FF"], // Optional color set
       variant: "default"
     }
+});
+```
+
+### `randomColor({ options });` ###
+
+Dynamically apply a random color to elements specified by the `[data-random="color"]` attribute. It allows for selecting colors from a predefined palette or a custom set of colors, further offering the ability to customize the CSS variable names used for the RGB and hex color values.
+
+```js
+const randomController = new RandomUtil.Controller();
+
+// Default usage with predefined palette
+randomController.randomColor();
+
+// Using a custom set of colors
+randomController.randomColor({
+    customColors: [
+        "#405de6",
+        "#5851db",
+        "#833ab4",
+    ]
+});
+
+// Customizing the CSS variable names
+randomController.randomColor({
+    varName: 'primary', // Prefix for the CSS variables (--primary-rgb, --primary-hex)
+    customColors: [
+        "#405de6",
+        "#5851db",
+        "#833ab4",
+        "#c13584"
+    ]
 });
 ```
 
@@ -256,6 +288,7 @@ Folder Structure
 Here's an overview of the project's folder structure:
 
 ```bash
+.
 ├── .env
 ├── .gitattributes
 ├── .gitignore
@@ -265,11 +298,16 @@ Here's an overview of the project's folder structure:
 ├── __test__
 │   └── randomutil.amd.test.js
 ├── babel.config.js
+├── demo
+│   ├── demo.css
+│   ├── demo.js
+│   └── index.html
 ├── dist
 │   ├── randomutil.amd.js
 │   └── randomutil.module.js
 ├── index.js
 ├── jest.config.js
+├── package-lock.json
 ├── package.json
 ├── sets
 │   └── palette.json

@@ -652,23 +652,105 @@
                 </div>
             </div>
         </div>
+
+        <!-- Color -->
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h2>randomColor Method</h2>
+                    <ul>
+                        <li>This method avails itself of the <code>paletteRgb</code> array to bestow upon elements a random color.</li>
+                        <li>It aims at elements adorned with the <code>[data-random="color"]</code> attribute, bequeathing to them a random color both in RGB and hex format.</li>
+                        <li>The method selects a random color from a meticulously converted RGB palette array, applying this color directly to the elements' style as custom CSS properties: <code>--color-rgb</code> and <code>--color-hex</code>.</li>
+                    </ul>
+                    <div class="row">
+                        <div class="col">
+                            <h3>Example:</h3>
+                            <ul>
+                                <li class="d-flex align-items-center" data-random="color">
+                                    <span style="width:12px;height:12px;border-radius:999em;background-color:var(--primary-hex);display: block; margin-right:.25em;"></span>
+                                    <span class="text"></span>
+                                </li>
+                                <li class="d-flex align-items-center" data-random="color">
+                                    <span style="width:12px;height:12px;border-radius:999em;background-color:var(--primary-hex);display: block; margin-right:.25em;"></span>
+                                    <span class="text"></span>
+                                </li>
+                                <li class="d-flex align-items-center" data-random="color">
+                                    <span style="width:12px;height:12px;border-radius:999em;background-color:var(--primary-hex);display: block; margin-right:.25em;"></span>
+                                    <span class="text"></span>
+                                </li>
+                                <li class="d-flex align-items-center" data-random="color">
+                                    <span style="width:12px;height:12px;border-radius:999em;background-color:var(--primary-hex);display: block; margin-right:.25em;"></span>
+                                    <span class="text"></span>
+                                </li>
+                                <li class="d-flex align-items-center" data-random="color">
+                                    <span style="width:12px;height:12px;border-radius:999em;background-color:var(--primary-hex);display: block; margin-right:.25em;"></span>
+                                    <span class="text"></span>
+                                </li>
+                                <li class="d-flex align-items-center" data-random="color">
+                                    <span style="width:12px;height:12px;border-radius:999em;background-color:var(--primary-hex);display: block; margin-right:.25em;"></span>
+                                    <span class="text"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
     </div>
     <script>
         const UNSPLASH_ACCESS_KEY = 'ea98eS9i44JjTJiC6XmvRRHDBITzIM9aB8cxXntcPvY';
 
+        // Initialize RandomContentManager (ensure this matches your actual implementation)
         const randomContent = new window.RandomUtil.RandomContentManager(1);
+
+        // Initialize RandomUtilController
         const randomController = new window.RandomUtil.RandomUtilController();
 
+        // Apply random content (ensure these methods exist and work as expected)
         randomController.randomTag(randomContent.randomTags);
         randomController.randomTitle(randomContent.randomTitles);
         randomController.randomExcerpt(randomContent.randomExcerpts);
+        randomController.randomColor(randomContent.randomTags);
 
+        // Apply other random utilities
         randomController.randomReadTime();
-        randomController.randomDate("Y/m/d");
+        randomController.randomDate("m/d");
 
+        // Randomize images
         const randomImageCount = document.querySelectorAll("[data-random='img']").length;
-        randomController.randomImages({ count: randomImageCount, query: "nature", orientation: "portrait", accessKey: UNSPLASH_ACCESS_KEY });
+        randomController.randomImages({
+            count: randomImageCount,
+            query: "nature",
+            orientation: "portrait",
+            accessKey: UNSPLASH_ACCESS_KEY
+        });
+
+        // Randomize avatars
         randomController.randomAvatar({ avatarOptions: { variant: "default" } });
+
+        // Random Colors
+        randomController.randomColor({
+            customColors: [
+                "#405de6",
+                "#5851db",
+                "#833ab4",
+                "#c13584",
+                "#e1306c",
+                "#f56040",
+                "#f77737",
+                "#fcaf45",
+                "#ffdc80",
+            ],
+            varName: 'primary'
+        });
+
+
     </script>
 
     <script src="demo.js"></script>

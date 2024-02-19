@@ -253,9 +253,6 @@ class TableUtils {
 
 new TableUtils("table");
 
-
-
-
 function wrapCollapsibleContent() {
 	const h2Elements = document.querySelectorAll(".container h2:not(.ignore)");
 
@@ -306,3 +303,28 @@ function wrapCollapsibleContent() {
 
 document.addEventListener("DOMContentLoaded", wrapCollapsibleContent);
 
+
+function documentColorVariablesAndLog() {
+  // Select all list items with the data-random="color" attribute
+  const colorItems = document.querySelectorAll('li[data-random="color"]');
+  const container = document.createElement('div'); // Container for the explanations
+
+  colorItems.forEach((item, index) => {
+    // Retrieve the computed style of the first child (the colored span)
+    const style = getComputedStyle(item.children[0]);
+    // Extract the background color value
+    const backgroundColor = style.backgroundColor;
+
+    // Create explanation text
+    const explanation = document.createElement('p');
+    explanation.textContent = `--primary-rgb: ${backgroundColor}`;
+    item.querySelector("span.text").appendChild(explanation);
+
+    // Log with color in the console
+  });
+
+  // Append the container to the body or a specific element in your document
+  document.body.appendChild(container);
+}
+
+document.addEventListener("DOMContentLoaded", documentColorVariablesAndLog);

@@ -1,16 +1,24 @@
 import { RandomDateUtil } from './util.date.js';
 import { RandomImageUtil } from './util.image.js';
 import { RandomAvatar } from './util.avatar.js';
+import palette from "../sets/palette.json";
 
 export class RandomUtilController {
     constructor (selectors = {}) {
+        // Initialization
         this.initializeElements(selectors);
+
+        // Managers
         this.imageManager = null;
         this.dateManager = null;
         this.avatarManager = null;
+
+        // Palettes
+        this.paletteRgb = palette.map(row => row.map(hex => this.hexToRgb(hex)));
     }
 
-    initializeElements({ tag, title, time, excerpt, date, img, avatar }) {
+    // Element selectors
+    initializeElements({ tag, title, time, excerpt, date, img, avatar, color }) {
         this.tagElements = this.getElements(tag || '[data-random="tag"]');
         this.titleElements = this.getElements(title || '[data-random="title"]');
         this.readTimeEls = this.getElements(time || '[data-random="read-time"]');
@@ -19,6 +27,7 @@ export class RandomUtilController {
         this.dateElements = this.getElements(date || '[data-random="date"]');
         this.dateSpecificElements = this.getElements('[data-random-date]');
         this.avatarElements = this.getElements(avatar || '[data-random="avatar"]');
+        this.colorElements = this.getElements(color || '[data-random="color"]'); // Corrected to use the color parameter
     }
 
     getElements(selector) {
@@ -94,5 +103,64 @@ export class RandomUtilController {
             element.innerHTML = '';
             element.appendChild(avatarManager.generateAvatar());
         });
+    }
+
+    hexToRgb(hex) {
+        let r = 0, g = 0, b = 0;
+        // Validate hex format
+        const validHex = /^#?([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})$/;
+        const result = validHex.exec(hex);
+        if (result) {
+            r = parseInt(result[1], 16);
+            g = parseInt(result[2], 16);
+            b = parseInt(result[3], 16);
+            return [r, g, b];
+        } else {
+            // Log a warning and return a default/fallback RGB value on invalid input
+            console.warn(`Invalid hex color: ${hex}. Falling back to default.`);
+            return [0, 0, 0]; // Fallback color: black
+        }
+    }
+
+    randomColor(options = {}) {
+        const { customColors = null, varName = 'color' } = options;
+
+        if (typeof varName !== 'string') {
+            console.error('varName must be a string.');
+            return;
+        }
+
+        if (!this.colorElements || this.colorElements.length === 0) {
+            return;
+        }
+
+        let targetPalette;
+        if (Array.isArray(customColors) && customColors.every(color => /^#([0-9A-F]{3}){1,2}$/i.test(color))) {
+            targetPalette = customColors.map(hex => this.hexToRgb(hex)).filter(rgb => rgb !== null);
+        } else if (!Array.isArray(customColors)) {
+            targetPalette = this.paletteRgb.flat();
+        } else {
+            console.error('Invalid customColors array.');
+            return;
+        }
+
+        const setColorStyle = (element) => {
+            if (targetPalette.length === 0) {
+                console.error('No valid colors available.');
+                return;
+            }
+
+            const randomColor = targetPalette[Math.floor(Math.random() * targetPalette.length)];
+            const hexColor = customColors ? customColors[targetPalette.indexOf(randomColor)] : palette.flat().find(hex => this.hexToRgb(hex).toString() === randomColor.toString()) || '#000000';
+            const rgbValue = randomColor ? randomColor.join(', ') : '0, 0, 0';
+
+            element.style.removeProperty('--color-rgb');
+            element.style.removeProperty('--color-hex');
+
+            element.style.setProperty(`--${varName}-rgb`, rgbValue);
+            element.style.setProperty(`--${varName}-hex`, hexColor);
+        };
+
+        this.colorElements.forEach(el => setColorStyle(el));
     }
 }
