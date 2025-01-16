@@ -7,7 +7,7 @@ const RandomUtil = {
 };
 
 // ----------------------------------------------------
-// Existing exports for various environments
+// Exports for various environments
 // ----------------------------------------------------
 
 // 1.1. Export for Node.js (CommonJS) environment
